@@ -1,6 +1,8 @@
 REM get admin permissions for script
 @echo off
 
+powershell Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
+
 :: BatchGotAdmin
 :-------------------------------------
 REM  --> check for permissions
