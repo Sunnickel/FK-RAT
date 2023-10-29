@@ -1,11 +1,11 @@
 Set WshShell = WScript.CreateObject("WScript.Shell")
 WshShell.SendKeys "^{ESC}"
 WScript.Sleep 500
-WshShell.SendKeys "Settings"
+WshShell.SendKeys "Einstellungen"
 WScript.Sleep 100
 WshShell.SendKeys "~"
 WScript.Sleep 1000
-WshShell.SendKeys "Windows Security"
+WshShell.SendKeys "Windows-Sicherheit"
 WScript.Sleep 500
 
 For x = 1 To 2
@@ -21,7 +21,7 @@ For x = 1 To 4
     WshShell.SendKeys "{TAB}"
 Next
 WshShell.SendKeys "~"
-For x = 1 To 6
+For x = 1 To 7
     WScript.Sleep 500
     WshShell.SendKeys "{TAB}"
 Next
