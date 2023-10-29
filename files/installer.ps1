@@ -8,8 +8,7 @@ function randomText {
 $temp = "$env:temp"
 $dirName = randomText
 
+## goto Temp and start building
 Set-Location $temp	
 New-Item -Path $temp -Name $dirName -Type Directory
 
-Set-Location $temp\$dirName
-New-Item -Path $temp\$dirName -Name "poc.txt" -Type File
