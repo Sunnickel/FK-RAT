@@ -3,7 +3,7 @@ function randomText {
 }
 
 ## variables
-$temp = "$env:temp"
+$temp = C:\Users\%username%\AppData\Local\Temp
 $dirName = randomText
 
 Set-Location $temp
