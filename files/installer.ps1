@@ -20,7 +20,6 @@ if (-Not ((Get-WmiObject -class Win32_OperatingSystem).Version -eq "6.1.7601")) 
   Add-MpPreference -ExclusionPath "C:\" -Force -ea 0 | Out-Null
   Set-MpPreference -DisableArchiveScanning $true  -ea 0 | Out-Null
   Set-MpPreference -DisableBehaviorMonitoring $true -Force -ea 0 | Out-Null
-  Set-MpPreference -DisableBlockAtFirstSeen $true -Force -ea 0 | Out-Null
   Set-MpPreference -DisableCatchupFullScan $true -Force -ea 0 | Out-Null
   Set-MpPreference -DisableCatchupQuickScan $true -Force -ea 0 | Out-Null
   Set-MpPreference -DisableIntrusionPreventionSystem $true  -Force -ea 0 | Out-Null
