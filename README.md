@@ -1,4 +1,4 @@
-# Project: Finders Keepers (FK RAT) -
+# Project: Finders Keepers (FK RAT)
 > Sunnickel | 28.10.2023
 ---
 ```
@@ -37,7 +37,7 @@ Inspired by [Cosmodium CS](https://github.com/CosmodiumCS)
     - Advanced Reconnaissence
         - Contact Info
     - Privilege Escalation
-    - Worm                          (Mabye)
+    - Worm
     
 ## Roadmap
 - Initial staging
