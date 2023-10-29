@@ -7,8 +7,8 @@ $temp = "$env:temp"
 $dirName = randomText
 
 Set-Location $temp	
-New-Item $dirName -ItemType Directory
+New-Item -Path $temp -Name $dirName -Type Directory
 
 
 Set-Location $temp\$dirName
-New-ITem poc.txt
+New-Item -Path $temp\$dirName -Name "poc.txt" -Type File
