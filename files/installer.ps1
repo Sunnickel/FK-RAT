@@ -7,7 +7,7 @@ $temp = "$env:temp"
 $dirName = randomText
 
 Set-Location $temp	
-New-Item §dirName -ItemType Directory
+New-Item $dirName -ItemType Directory
 
 
 Set-Location $temp\$dirName
