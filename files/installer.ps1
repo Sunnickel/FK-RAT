@@ -3,11 +3,12 @@ function randomText {
 }
 
 ## variables
-$temp = "C:\Users\%username%\AppData\Local\Temp"
+$temp = "$env:temp"
 $dirName = randomText
 
-Set-Location $temp
-mkdir $dirName
+Set-Location $temp	
+New-item -Path "$temp\$dirname" -ItemType Directory
 
-Set-Location $temp/$dirName
-Write-Output "" > poc.txt
+
+Set-Location $temp\$dirName
+New-item -Path "$temp\$dirname\poc.txt" -ItemType FIle -Value ""
