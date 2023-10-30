@@ -10,15 +10,22 @@ function createAdmin {
     [securestring] $pWord
   )
   begin{
+    
   }
   process {
     New-LocalUser "$uName" -Password $pWord -FullName "$uName" -Description "Temporary local admin"
     Write-Verbose "$uName local user crated"
-    Add-LocalGroupMember -Group "Administrators" -Member "$uName"
+    Add-LocalGroupMember -Group "$group" -Member "$uName"
+    Add-LocalGroupMember -Group "administratoren" -Member "$uName"
     Write-Verbose "$uName added to the local administrator group"
   }
   end{
   }
+}
+
+function getAdminGroup {
+  Get-LocalGroup -sid S-1-5-32-544 | Select-Object Name -OutVariable $group
+
 }
 
 ## Temp Directory
