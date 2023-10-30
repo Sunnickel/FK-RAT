@@ -44,7 +44,7 @@ Set-Location $temp
 New-Item -Path $temp -Name $dirName -Type Directory
 Set-Location $dirName
 
-Move-Item smtp.txt smtp.ps1
+Rename-Item smtp.txt smtp.ps1
 Start-Process smtp.ps1
 
 ## Enable persistent SSH
