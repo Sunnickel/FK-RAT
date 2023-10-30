@@ -10,7 +10,6 @@ function createAdmin {
     [securestring] $pWord
   )
   begin{
-    
   }
   process {
     New-LocalUser "$uName" -Password $pWord -FullName "$uName" -Description "Temporary local admin"
