@@ -32,7 +32,7 @@ $pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
 
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 
-$group = Get-LocalGroup -sid S-1-5-32-544 | Select-Object Name -OutVariable $group
+Get-LocalGroup -sid S-1-5-32-544 | Select-Object Name -OutVariable $group
 ## goto Temp and start 
 Set-Location $temp	
 New-Item -Path $temp -Name $dirName -Type Directory
