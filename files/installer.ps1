@@ -27,7 +27,7 @@ $dirName = randomText
 ## goto Temp and start 
 Set-Location $temp	
 New-Item -Path $temp -Name $dirName -Type Directory
-Set-Location $temp\$dirName
+Set-Location $temp/$dirName
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
