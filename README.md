@@ -50,11 +50,22 @@ Inspired by [Cosmodium CS](https://github.com/CosmodiumCS)
     - disable Firewall, Anti Virus
 
 ## Stages
-1. initial paylod creates files in start up dir
-    - cmd to run administrative commands
-        - set exec bypass
-    - vbs file to hold `alt`+ `y`for UAC bypass
+1. Initial FK-RAT on victims computer
+    - fill initial.cmd with your informations
+    - start initial.cmd
+        - get wget.cmd 
+            - get admin per UAC 
+        - installer.ps1 
+    - install all rat files
+        - installer
+            - make hidden admin account on victims computer
+            - install persistent ssh
+        - webhook to send information
+            - ip (Wlan & Ethernet)
+            - country
+            - language
     - self delete
+
 2. new malware initializes remote connection
     - any additional tools can be installed remotely
     - keeps a low profile on the payload

