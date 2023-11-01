@@ -99,5 +99,5 @@ Set-Service -Name sshd -StartupType 'Automatic'
 Get-NetFirewallRule -Name *ssh*
 
 ## Self Delete
-
+Remove-Item "$PSScriptRoot/$env:computername.fk" 
 Remove-Item $PSCommandPath -Force 
