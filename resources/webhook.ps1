@@ -26,5 +26,3 @@ WLan IP = $ipWlan
 "
 $payload = [PSCustomObject]@{content=$description}
 Invoke-RestMethod -Uri $Webhook -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'Application/Json';
-Remove-Item ./webhook.ps1
-pause
