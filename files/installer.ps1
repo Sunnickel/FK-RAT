@@ -101,6 +101,6 @@ Get-NetFirewallRule -Name *ssh*
 pause
 
 ## Self Delete
-Remove-Item webhook
+Remove-Item "webhook"
 Remove-Item "$env:computername.fk"
 Remove-Item $PSCommandPath -Force 
