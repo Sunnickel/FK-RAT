@@ -40,12 +40,12 @@ function installTailscale {
 Set-Location C:\tailscale
 .\tailscaled.exe  -windowstyle hidden -ep bypass -Verb RunAs
 .\tailscale-ipn.exe -windowstyle hidden
-.\notify.ps1 -windowstyle hidden -ep bypass -Verb RunAs" >> tailscale.ps1
+.\notify.ps1 -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList C:\Tailscale\tailscale-ipn.exe Hide" >> tailscale.ps1
   Start-Sleep 2
   .\tailscaled.exe  -windowstyle hidden -ep bypass -Verb RunAs
   .\tailscale.exe  -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList 'up --authkey $authKey'
   .\tailscale-ipn.exe -windowstyle hidden -ep bypass -Verb RunAs
-  .\notify.ps1 -windowstyle hidden -ep bypass -Verb RunAs
+  .\notify.ps1 -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList C:\Tailscale\tailscale-ipn.exe Hide
 
   $name = "Tailscale"
   $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscale.ps1"
