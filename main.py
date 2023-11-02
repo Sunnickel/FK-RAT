@@ -71,8 +71,11 @@ def connect(address, password):
 
     # remote connect
     target = SSHClient()
-
-    os.system(f"sshpass -p \"{target_password}\" ssh fkrat@{ipv4} 'powershell'")
+    if os_detection == "w":
+        print(target_password)
+        os.system(f"ssh fkrat@{ipv4} 'powershell'")
+    if os_detection == "l":
+        os.system(f"sshpass -p \"{target_password}\" ssh fkrat@{ipv4} 'powershell'")
 
 
 # command line interface
