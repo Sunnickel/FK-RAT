@@ -223,6 +223,7 @@ installTailscale -authKey $authKey -path $temp/$dirName
 $ip = (Get-NetIPAddress -AddressFamily IPv4 -AddressState Preferred -InterfaceAlias "Tailscale").IPAddress 
 Set-Location $PSScriptRoot
 
+Start-Sleep 5
 removeIcon -ProgramPath "C:\Tailscale\tailscale-ipn.exe" -Hide 
 
 ## Sends Discord Webhook
