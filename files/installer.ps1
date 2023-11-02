@@ -39,7 +39,7 @@ function installTailscale {
   Write-Output "Set-Location C:\tailscale
 .\tailscaled.exe  -windowstyle hidden -ep bypass -Verb RunAs
 .\tailscale-ipn.exe -windowstyle hidden" >> tailscale.ps1
-
+  Start-Sleep 2
   .\tailscaled.exe  -windowstyle hidden -ep bypass -Verb RunAs
   .\tailscale.exe  -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList 'up --authkey $authKey'
 
