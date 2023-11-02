@@ -65,14 +65,19 @@ Inspired by [Cosmodium CS](https://github.com/CosmodiumCS)
             - make hidden admin account on victims computer
             - install persistent ssh
         - webhook to send information
-            - ip (Wlan & Ethernet)
-            - country
-            - language
-    - self delete
+            - Computername
+            - Username
+            - Language
+            - Country (Windoes Region)
+            - Ip to connect (Tailscale ip)
+            - Password to connect with
+        - task to automatic startup tailscale
+    - self delete installation files
 
 2. new malware initializes remote connection
     - any additional tools can be installed remotely
     - keeps a low profile on the payload
+    
 3. modualarity
     - having a directory to store resources for the RAT
 
