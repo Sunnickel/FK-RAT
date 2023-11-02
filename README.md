@@ -24,7 +24,7 @@ Inspired by [Cosmodium CS](https://github.com/CosmodiumCS)
 - [Tailscale](tailscale.com)
 
 ## Components 
-    - Connection to Targets outside your Network ([For more Informations read this](https://github.com/Sunnickel/FK-RAT/blob/main/Tailscale.md))
+    - Connection to Targets outside your Network (For more Informations read Tailscale.md)
     - Keylogger
         - DucKey Keylogger
         - Backspace Detection
