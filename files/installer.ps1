@@ -42,10 +42,10 @@ Start-Process -FilePath '.\tailscale.exe'  -WindowStyle Hidden -ArgumentList 'up
   Start-Process tailscale.ps1 -WindowStyle Hidden
 
   $name = "Tailscale"
-  $action = New-ScheduledTaskAction -Execute "tailscale.ps1" -WorkingDirectory "C:\Tailscale\"
-  $trigger = New-ScheduledTaskTrigger -AtLogOn
+  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscale.ps1"
+  $trigger = New-ScheduledTaskTrigger -AtStartup
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
-  $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun
+  $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
 
   if (Get-ScheduledTask $name -ErrorAction SilentlyContinue) {Unregister-ScheduledTask $name} 
   Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description "Tailscale Service, Preinstalled for Windoes"
