@@ -45,7 +45,7 @@ function installTailscale {
 
   ## Adds Tailscale to task scheduler
   $name = "Tailscale"
-  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscaled.exe, C:\Tailscale\tailscale-ipn.exe, C:\Tailscale\tailscale.exe"
+  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscaled.exe"
   $trigger = New-ScheduledTaskTrigger -AtStartup
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
   $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
