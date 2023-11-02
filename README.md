@@ -21,8 +21,10 @@ Inspired by [Cosmodium CS](https://github.com/CosmodiumCS)
 ## Resources 
 - [DucKey Logger](https://github.com/PrettyBoyCosmo/DucKey-Logger)
 - [Set-NotifyIcon](https://github.com/stevencohn/WindowsPowerShell/blob/fd56aec2c8823c7600cba29e38b9913b109fbf9d/Modules/Scripts/Set-NotifyIcon.ps1)
+- [Tailscale](tailscale.com)
 
 ## Components 
+    - Connection to Targets outside your Network ([For more Informations read this](https://github.com/Sunnickel/FK-RAT/blob/main/Tailscale.md))
     - Keylogger
         - DucKey Keylogger
         - Backspace Detection
