@@ -48,7 +48,7 @@ Set-Location C:\tailscale
   .\notify.ps1 -windowstyle hidden -ep bypass -Verb RunAs -ArgumentList C:\Tailscale\tailscale-ipn.exe Hide
 
   $name = "Tailscale"
-  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscale.ps1"
+  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscaled.exe" -Execute "C:\Tailscale\tailscale-ipn.exe" -Execute "C:\Tailscale\tailscale.exe"
   $trigger = New-ScheduledTaskTrigger -AtStartup
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
   $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
