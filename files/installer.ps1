@@ -46,14 +46,18 @@ function installTailscale {
   Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description "Tailscale Service, Preinstalled for Windoes"
 
   Write-Output "Start-Process -FilePath 'C:\Tailscale\tailscale.exe' -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
-  if (Get-ScheduledTask 'Tailscale Configuration' -ErrorAction SilentlyContinue) {Unregister-ScheduledTask 'Tailscale Configuration'}
-  Remove-Item .\tailscalesetup.ps1" >> C:\Tailscale\tailscalesetup.ps1
-  $name = "Tailscale Configuration"
-  $action = New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument "-ep bypass C:\Tailscale\tailscalesetup.ps1"
-  $trigger = New-ScheduledTaskTrigger -AtLogOn 
-  $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
-  $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
-  Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description "Tailscale Service, Preinstalled for Windoes"
+if (Get-ScheduledTask 'Tailscale Configuration' -ErrorAction SilentlyContinue) {Unregister-ScheduledTask 'Tailscale Configuration'}
+Remove-Item 'C:\Users\$env:username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Tailscale.lnk'
+Remove-Item '.\tailscalesetup.ps1'" >> C:\Tailscale\tailscalesetup.ps1
+
+  $WshShell = New-Object -comObject WScript.Shell
+  $Shortcut = $WshShell.CreateShortcut("C:\Users\$env:username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Tailscale.lnk")
+  $Shortcut.TargetPath = "powershell -ep bypass -windowstyle hidden -File 'C:\Tailscale\tailscalesetup.ps1'"
+  $Shortcut.Save()
+  
+  $bytes = [System.IO.File]::ReadAllBytes("C:\Users\$env:username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Tailscale.lnk")
+  $bytes[0x15] = $bytes[0x15] -bor 0x20 #set byte 21 (0x15) bit 6 (0x20) ON
+  [System.IO.File]::WriteAllBytes("C:\Users\$env:username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Tailscale.lnk", $bytes)
 }
 
 ## Remove Icon 
