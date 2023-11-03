@@ -73,6 +73,7 @@ def connect(config_file):
     target_password = config.get("PASSWORD")
     working_directory = config.get("WORKINGDIR")
 
+    ## FIXME: SSH connection
     # remote connect
     target = SSHClient()
     if os_detection == "w":
@@ -121,7 +122,7 @@ def cli(arguments):
                     exit()
                 print(option_menu)
                 option = input(header + " > " + choosenfile + " $ ")
-                if option == "0":  # SSH Connection to target
+                if option == "0":                                               # SSH Connection to target
                     connect("./targets/" + choosenfile)
 
     else:

