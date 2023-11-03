@@ -37,18 +37,19 @@ function installTailscale {
   
   ## Adds Tailscale to task scheduler
   $name = "Tailscale"
-  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscaled.exe"
+  $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscaled.exe" 
   $trigger = New-ScheduledTaskTrigger -AtStartup 
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
   $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
 
   if (Get-ScheduledTask $name -ErrorAction SilentlyContinue) {Unregister-ScheduledTask $name} 
   Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description "Tailscale Service, Preinstalled for Windoes"
+
   Write-Output "Start-Process -FilePath 'C:\Tailscale\tailscale.exe' -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
   if (Get-ScheduledTask 'Tailscale Configuration' -ErrorAction SilentlyContinue) {Unregister-ScheduledTask 'Tailscale Configuration'}
   Remove-Item .\tailscalesetup.ps1" >> C:\Tailscale\tailscalesetup.ps1
   $name = "Tailscale Configuration"
-  $action = New-ScheduledTaskAction -Execute "PowerShell" -Argument "C:\Tailscale\tailscalesetup.ps1"
+  $action = New-ScheduledTaskAction -Execute "PowerShell" -WorkingDirectory C:/Tailscale -Argument "C:\Tailscale\tailscalesetup.ps1"
   $trigger = New-ScheduledTaskTrigger -AtLogOn 
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
   $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
