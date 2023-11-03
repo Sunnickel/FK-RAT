@@ -67,7 +67,6 @@ Inspired by [Cosmodium CS](https://github.com/CosmodiumCS)
         - webhook to send information
             - Computername
             - Username
-            - Language
             - Country (Windoes Region)
             - Ip to connect (Tailscale ip)
             - Password to connect with
