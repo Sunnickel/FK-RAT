@@ -120,3 +120,4 @@ Remove-Item $PSCommandPath -Force
 
 ## Finish Tailscale installation
 Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
+taskkill /im "tailscale-ipn.exe" /F
