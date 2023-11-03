@@ -49,7 +49,7 @@ function installTailscale {
   if (Get-ScheduledTask 'Tailscale Configuration' -ErrorAction SilentlyContinue) {Unregister-ScheduledTask 'Tailscale Configuration'}
   Remove-Item .\tailscalesetup.ps1" >> C:\Tailscale\tailscalesetup.ps1
   $name = "Tailscale Configuration"
-  $action = New-ScheduledTaskAction -Execute "PowerShell" -WorkingDirectory C:/Tailscale -Argument "C:\Tailscale\tailscalesetup.ps1"
+  $action = New-ScheduledTaskAction -Execute "PowerShell" -WorkingDirectory C:/Tailscale -Argument "-ep bypass C:\Tailscale\tailscalesetup.ps1"
   $trigger = New-ScheduledTaskTrigger -AtLogOn 
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
   $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
@@ -242,3 +242,6 @@ Remove-Item "$PSScriptRoot/$env:computername.fk"
 Remove-Item "$PSScriptRoot/webhook"
 Remove-Item "$PSScriptRoot/authkey"
 Remove-Item $PSCommandPath -Force 
+
+## Lock the Computer to activate the Tailscale on Login
+rundll32.exe user32.dll,LockWorkStation
