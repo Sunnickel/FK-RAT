@@ -80,7 +80,7 @@ Begin
         # this line will ROT13 the data so you view/debug the ASCII contents of the stream
         #$stream | % { if ($_ -ge 32 -and $_ -le 125) { [void]$builder.Append( [char](Rot13 $_) ) } };
 
-        $stream | % { [void]$builder.Append( ('{0:x2}' -f $_) ) }
+        $stream | ForEach-Object { [void]$builder.Append( ('{0:x2}' -f $_) ) }
         return $builder.ToString()
     }
 
@@ -92,7 +92,7 @@ Begin
         $bytes = $encoding.GetBytes($path)
 
         $builder = New-Object System.Text.StringBuilder
-        $bytes | % { [void]$builder.Append( ('{0:x2}00' -f (Rot13 $_)) ) }
+        $bytes | ForEach-Object { [void]$builder.Append( ('{0:x2}00' -f (Rot13 $_)) ) }
         return $builder.ToString()
     }
 
@@ -154,7 +154,7 @@ Process
         $item = $table[$key]
 
         $builder = New-Object System.Text.StringBuilder
-        $item | % { [void]$builder.Append( ('{0:x2}' -f $_) ) }
+        $item | ForEach-Object { [void]$builder.Append( ('{0:x2}' -f $_) ) }
         $hex = $builder.ToString()
 
         if ($hex.Contains($path))
