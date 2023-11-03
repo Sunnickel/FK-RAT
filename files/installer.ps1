@@ -77,9 +77,9 @@ Set-Location $PSScriptRoot
 
 Start-Sleep 5
  
-Start-Process -FilePath "C:\Tailscale\\tailscaled.exe" -windowstyle hidden -Verb RunAs
+Start-Process -FilePath "C:\Tailscale\tailscaled.exe" -windowstyle hidden -Verb RunAs
 Start-Process -FilePath 'C:\Tailscale\tailscale-ipn.exe' -windowstyle hidden -Verb RunAs 
-Start-Process -FilePath "C:\Tailscale\\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
+Start-Process -FilePath "C:\Tailscale\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
  
 
 ## Sends Discord Webhook
