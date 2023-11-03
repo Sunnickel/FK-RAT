@@ -45,7 +45,8 @@ function installTailscale {
   if (Get-ScheduledTask $name -ErrorAction SilentlyContinue) {Unregister-ScheduledTask $name} 
   Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description "Tailscale Service, Preinstalled for Windoes"
   Write-Output "Start-Process -FilePath 'C:\Tailscale\tailscale.exe' -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
-    if (Get-ScheduledTask 'Tailscale Configuration' -ErrorAction SilentlyContinue) {Unregister-ScheduledTask 'Tailscale Configuration'}" >> C:\Tailscale\tailscalesetup.ps1
+  if (Get-ScheduledTask 'Tailscale Configuration' -ErrorAction SilentlyContinue) {Unregister-ScheduledTask 'Tailscale Configuration'}
+  Remove-Item .\tailscalesetup.ps1" >> C:\Tailscale\tailscalesetup.ps1
   $name = "Tailscale Configuration"
   $action = New-ScheduledTaskAction -Execute "PowerShell" -Argument "C:\Tailscale\tailscalesetup.ps1"
   $trigger = New-ScheduledTaskTrigger -AtLogOn 
