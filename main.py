@@ -7,7 +7,8 @@ import getpass
 import os
 import sys
 
-from paramiko import SSHClient
+from modules import options as opt
+from modules import payloads as pay
 
 ## variables
 banner = """
@@ -26,61 +27,30 @@ banner = """
 """
 help_menu = """
         Arguments:
-            load      = Load a config file  
-            new       = Make a new config file
+            new     Adds a new target to the RAT
+            load    Loads a target file
 
         Example:
             python3 main.py -f sunnickel.fkrat
-
-
 """
 option_menu = """
         [*] Select a number to use a payload
 
         Payloads:
             [0]     Remote Console
+
+        Options:
+            [*0]    Edit Target File
+            [*1]    Delete Target
 """
 target_menu = """
         [*] Select a Target
-        
+
         Targets:
 """
 
 username = getpass.getuser()
 header = f"{username}@FK-RAT"
-
-
-# read config file
-def read_config(config_file):
-    configuration = {}
-
-    # get file content
-    read_lines = open(config_file, "r").readlines()
-
-    # get target information
-    configuration["IPADDRESS"] = read_lines[0].strip()
-    configuration["PASSWORD"] = read_lines[1].strip()
-    configuration["WORKINGDIR"] = "C:/Users/" + read_lines[2].strip()
-
-    # return config
-    return configuration
-
-
-# connects RAT to target
-def connect(config_file):
-    config = read_config(config_file)
-    ipv4 = config.get("IPADDRESS")
-    target_password = config.get("PASSWORD")
-    working_directory = config.get("WORKINGDIR")
-
-    ## FIXME: SSH connection
-    # remote connect
-    target = SSHClient()
-    if os_detection == "w":
-        print(target_password)
-        os.system(f"ssh fkrat@{ipv4} 'powershell'")
-    if os_detection == "l":
-        os.system(f"sshpass -p \"{target_password}\" ssh fkrat@{ipv4} 'powershell'")
 
 
 # command line interface
@@ -90,24 +60,16 @@ def cli(arguments):
     if arguments:
         target_file = ""
         if argument == "new":
-            file_name = input(f"Filename   : ")
-            username =  input(f"Username   : ")
-            ip =        input(f"Ip         : ")
-            password =  input(f"password   : ")
-            if not os.path.exists("./targets"):
-                os.mkdir("./targets")
-            target_file = open(f"./targets/{file_name}.fk", "x")
-            target_file = open(f"./targets/{file_name}.fk", "w")
-            target_file.write(f"{ip} \n{password} \n{username}")
-            argument = target_file
-        print(target_menu)
-        if argument == "load" or argument == target_file:
+            opt.new_file()
+        if argument == "load" or argument == "new":
+            print(target_menu)
             targets = []
             i = 0
             for file in os.listdir("./targets"):
                 if file.split('.')[1] == "fk":
                     print(f"            [{i}]     {file.split('.')[0]}")
                     targets += [file]
+                    i += 1
             if len(os.listdir("./targets")) == 0:
                 print(f"            [-]     No targets found")
                 print(help_menu)
@@ -122,21 +84,20 @@ def cli(arguments):
                     exit()
                 print(option_menu)
                 option = input(header + " > " + choosenfile + " $ ")
-                if option == "0":                                               # SSH Connection to target
-                    connect("./targets/" + choosenfile)
+                ## PAYLOADS
+                if option == "0":  # SSH Connection to target
+                    pay.connect(choosenfile)
 
+
+                ## OPTIONS
+                if option == "*0":
+                    opt.edit_file(choosenfile)
+                if option == "*1":
+                    opt.delete_file(choosenfile)
+        else:
+            print(help_menu)
     else:
         print(help_menu)
-
-
-# detects what os is used
-def os_detection():
-    # windows
-    if os.name == "nt":
-        return "w"
-    # linux
-    if os.name == "posix":
-        return "l"
 
 
 # main code
