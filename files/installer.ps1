@@ -74,11 +74,11 @@ Set-Location $dirName
 ## Install Tailscale and take ip
 installTailscale -authKey $authKey -path $temp/$dirName 
 Set-Location $PSScriptRoot
-
+netsh advfirewall firewall add rule name="Tailscale" dir=in action=allow program="C:\Tailscale\tailscale-ipn.exe" enable=yes
 Start-Sleep 5
- 
+
 Start-Process -FilePath "C:\Tailscale\tailscaled.exe" -windowstyle hidden -Verb RunAs
-Start-Process -FilePath 'C:\Tailscale\tailscale-ipn.exe' -windowstyle hidden -Verb RunAs 
+Start-Process -FilePath "C:\Tailscale\tailscale-ipn.exe" -windowstyle hidden -Verb RunAs 
 Start-Sleep 1
 Start-Process -FilePath "C:\Tailscale\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
 
