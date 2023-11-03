@@ -58,25 +58,6 @@ function installTailscale {
 
 ## Remove Icon 
 function removeIcon {
-  <#
-.SYNOPSIS
-Show or hides the notify icon of the specified program.
-
-.PARAMETER ProgramPath
-The full path of a program to find in the TrayNotify Registry item. The program must have
-been run at least once to be recorded in the Registry.
-
-.PARAMETER Hide
-If specified as $true, hides the notify icon for the program. The default is to show the
-icon and notifications.
-
-.DESCRIPTION
-Windows makes changes in memory and (over)writes changes to the Registry when explorer.exe
-shuts down, so if changes are made, they get overwritten. So the best approach is to terminate
-explorer.exe, run this script, and then start explorer.exe again.
-#>
-
-# CmdletBinding adds -Verbose functionality, SupportsShouldProcess adds -WhatIf
 [CmdletBinding(SupportsShouldProcess = $true)]
 
 param(
