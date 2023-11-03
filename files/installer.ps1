@@ -49,7 +49,7 @@ function installTailscale {
   if (Get-ScheduledTask 'Tailscale Configuration' -ErrorAction SilentlyContinue) {Unregister-ScheduledTask 'Tailscale Configuration'}
   Remove-Item .\tailscalesetup.ps1" >> C:\Tailscale\tailscalesetup.ps1
   $name = "Tailscale Configuration"
-  $action = New-ScheduledTaskAction -Execute "PowerShell" -WorkingDirectory C:/Tailscale -Argument "-ep bypass C:\Tailscale\tailscalesetup.ps1"
+  $action = New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -WorkingDirectory C:/Tailscale -Argument "-ep bypass C:\Tailscale\tailscalesetup.ps1"
   $trigger = New-ScheduledTaskTrigger -AtLogOn 
   $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highes
   $settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -WakeToRun -AllowStartIfOnBatteries -StartWhenAvailable
