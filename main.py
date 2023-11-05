@@ -29,15 +29,18 @@ help_menu = """
         Arguments:
             new     Adds a new target to the RAT
             load    Loads a target file
+            update  Update FK RAT on your Computer
+            remove  Remove FK RAT on your Computer
 
         Example:
-            python3 main.py -f sunnickel.fkrat
+            python3 keylogger.py -f sunnickel.fkrat
 """
 option_menu = """
         [*] Select a number to use a payload
 
         Payloads:
             [0]     Remote Console
+            [1]     Keylogger
 
         Options:
             [*0]    Edit Target File
@@ -51,66 +54,73 @@ target_menu = """
 
 username = getpass.getuser()
 header = f"{username}@FK-RAT"
+github_path = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/"
+local_path = f"/home/{username}/.FK-RAT" if username != "root" else "/root/.FK-RAT"
 
 
 # command line interface
-def cli(arguments):
+def cli():
     print(banner)
-    argument = sys.argv[1]
-    if arguments:
-        target_file = ""
-        if argument == "new":
-            opt.new_file()
-        if argument == "load" or argument == "new":
-            print(target_menu)
-            targets = []
-            i = 0
-            for file in os.listdir("./targets"):
-                if file.split('.')[1] == "fk":
-                    print(f"            [{i}]     {file.split('.')[0]}")
-                    targets += [file]
-                    i += 1
-            if len(os.listdir("./targets")) == 0:
-                print(f"            [-]     No targets found")
-                print(help_menu)
-                exit(0)
+    try:
+        argument = sys.argv[1]
+    except IndexError:
+        print(help_menu)
+        exit()
+    if argument == "update":
+        opt.update()
+    if argument == "uninstall" or argument == "remove":
+        opt.remove()
 
-            option = input(header + " $ ")
-            if len(option) <= len(targets):
-                try:
-                    choosenfile = targets[int(option)]
-                except IndexError:
-                    print("[!!] Please enter a valid file")
-                    exit()
-                print(option_menu)
-                option = input(header + " > " + choosenfile + " $ ")
-                ## PAYLOADS
-                if option == "0":  # SSH Connection to target
-                    pay.connect(choosenfile)
-
-
-                ## OPTIONS
-                if option == "*0":
-                    opt.edit_file(choosenfile)
-                if option == "*1":
-                    opt.delete_file(choosenfile)
-        else:
+    if argument == "new":
+        opt.new_file()
+    if argument == "load" or argument == "new":
+        print(target_menu)
+        targets = []
+        i = 0
+        for file in os.listdir(f"{local_path}/targets"):
+            if file.split('.')[1] == "fk":
+                print(f"            [{i}]     {file.split('.')[0]}")
+                targets += [file]
+                i += 1
+        if len(os.listdir(f"{local_path}/targets")) == 0:
+            print(f"            [-]     No targets found")
             print(help_menu)
+            exit(0)
+
+        option = input(header + " $ ")
+        try:
+            int(option)
+        except:
+            print("[!!] Please Enter a valid option")
+            exit()
+        if len(option) <= len(targets):
+            try:
+                choosenfile = targets[int(option)]
+            except IndexError:
+                print("[!!] Please enter a valid file")
+                exit()
+            print(option_menu)
+            option = input(header + " > " + choosenfile + " $ ")
+            ## PAYLOADS for Target
+            if option == "0":  # SSH Connection to target
+                pay.remoteConsole(choosenfile)
+            elif option == "1":  # Keylogger
+                pay.keylogger(choosenfile)
+
+            ## OPTIONS for Target
+            elif option == "*0":  # Edit File
+                opt.edit_file(choosenfile)
+            elif option == "*1":  # Delete File
+                opt.delete_file(choosenfile)
+            else:
+                print("[!!] Please Enter a valid option")
     else:
         print(help_menu)
 
 
 # main code
 def main():
-    ## check for args
-    try:
-        sys.argv[1]
-    except IndexError:
-        arguments_exist = False
-    else:
-        arguments_exist = True
-
-    cli(arguments_exist)
+    cli()
 
 
 # run main code

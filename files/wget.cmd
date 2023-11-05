@@ -42,4 +42,4 @@ powershell -windowstyle hidden -ep bypass .\installer.ps1
 
 
 REM self delete
-del wget.cmd 
+del wget.cmd
