@@ -1,3 +1,4 @@
+cd ~/.FK-RAT
 shopt -s extglob
 find . -type f -not \( -name '*.fk' -or -name 'initial.cmd' -or -name 'fkrat.conf' \) -delete
 rmdir */*

