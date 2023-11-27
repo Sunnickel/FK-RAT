@@ -124,7 +124,7 @@ def update():
     update_needed = filecmp.cmp(local_main, github_main, shallow=True)
     
     print(update_needed)
-    os.remove(f"{local_path}/Downloads/*")
+    os.system(f"rm -rf {local_path}/Downloads/*")
     if update_needed:
         choice = input("[??] There is a newer version of this tool avaible, do you want to update it? \n(y or n [n = default])")
         if choice == "y" or "Y":
