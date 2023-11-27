@@ -101,14 +101,20 @@ def update():
     local_payloads = f"{local_path}/modules/payloads.py"
     local_main = f"{local_path}/main.py"
     
+    if not os.path.exists(f"{local_path}/Downloads"):
+        os.mkdir(f"{local_path}/Downloads")
+
     opt = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/modules/options.py"
     pay = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/modules/payloads.py"
     main = "https://raw.githubusercontent.com/Sunnickel/FK-RAT/main/main.py"
     
-    urllib.request.urlretrieve(opt, f"{local_path}/Downloads/options.py")
-    urllib.request.urlretrieve(pay, f"{local_path}/Downloads/payloads.py")
-    urllib.request.urlretrieve(main, f"{local_path}/Downloads/main.py")
-    
+    try: 
+        urllib.request.urlretrieve(opt, f"{local_path}/Downloads/options.py")
+        urllib.request.urlretrieve(pay, f"{local_path}/Downloads/payloads.py")
+        urllib.request.urlretrieve(main, f"{local_path}/Downloads/main.py")
+    except urllib.error.URLError:
+        print("[!!] Please check your internet connection")
+
     github_options = f"{local_path}/Downloads/options.py"
     github_payload = f"{local_path}/Downloads/payloads.py"
     github_main = f"{local_path}/Downloads/main.py"
@@ -117,17 +123,17 @@ def update():
     update_needed = filecmp.cmp(local_payloads, github_payload, shallow=True)
     update_needed = filecmp.cmp(local_main, github_main, shallow=True)
     
-    
+    print(update_needed)
     os.remove(f"{local_path}/Downloads/*")
     if update_needed:
-        choice = input("There is a newer version of this tool avaible, do you want to update it? \n(y or n [n = default])")
+        choice = input("[??] There is a newer version of this tool avaible, do you want to update it? \n(y or n [n = default])")
         if choice == "y" or "Y":
             os.system(f"chmod +x {local_path}/modules/update.sh && {local_path}/modules/update.sh")
         else:
             return
 
 def remove():
-    choice = input("Are you sure you want to remove FKRAT from your computer (y or n [n = default]) : ")
+    choice = input("[??] Are you sure you want to remove FKRAT from your computer? \n(y or n [n = default])")
     if choice == "y" or "Y":
         if choice == "y" or "Y":
             os.system(f"chmod +x {local_path}/modules/remove.sh && {local_path}/modules/remove.sh")

