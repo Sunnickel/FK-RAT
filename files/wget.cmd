@@ -12,7 +12,7 @@ REM  --> check for permissions
 
 REM --> if error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
-    echo Requesting administrative privileges...
+    echo Error, exiting script...
     goto UACPrompt
 ) else ( goto gotAdmin )
 
