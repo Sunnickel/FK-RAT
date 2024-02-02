@@ -1,4 +1,3 @@
-REM get admin permissions for script
 @echo off
 
 :: BatchGotAdmin
